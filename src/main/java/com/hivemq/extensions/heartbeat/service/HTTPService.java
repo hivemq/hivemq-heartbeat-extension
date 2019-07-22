@@ -36,12 +36,13 @@ import java.net.InetSocketAddress;
  */
 public class HTTPService {
 
-    private static @NotNull final Logger LOG = LoggerFactory.getLogger(HTTPService.class);
-    private static @Nullable Server server;
+    @NotNull private static final Logger LOG = LoggerFactory.getLogger(HTTPService.class);
+    @Nullable private static Server server;
 
     public HTTPService() { }
 
-    public void start(@NotNull final Heartbeat heartbeat, @NotNull final HiveMQHeartbeatServlet hiveMQHeartbeatServlet) {
+    @NotNull
+    public final void start(@NotNull final Heartbeat heartbeat, @NotNull final HiveMQHeartbeatServlet hiveMQHeartbeatServlet) {
 
         try {
             LOG.info("Initializing HTTP service");
@@ -60,14 +61,15 @@ public class HTTPService {
 
         } catch (final Exception e) {
             LOG.error("Could not start HTTP service. ", e);
-            throw new RuntimeException(e);
+            throw new RuntimeException("Could not start HTTP service. ", e);
         }
 
         LOG.info("HTTP service started successfully on address '{}' and port '{}' for path '{}' ", heartbeat.getBindAddress(), heartbeat.getPort(), heartbeat.getPath());
 
     }
 
-    public void stop() {
+    @NotNull
+    public final void stop() {
         try {
             if( server != null && server.isRunning() ) {
                 server.stop();

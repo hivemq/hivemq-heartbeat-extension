@@ -42,14 +42,13 @@ import java.io.File;
  * @Author Anja Helmbrecht-Schaar
  *
  */
-
 public class HeartbeatMain implements ExtensionMain {
 
-    private @NotNull static final Logger LOG = LoggerFactory.getLogger(HeartbeatMain.class);
-    private @NotNull final HTTPService httpService = new HTTPService();
+    @NotNull private static final Logger LOG = LoggerFactory.getLogger(HeartbeatMain.class);
+    @NotNull private final HTTPService httpService = new HTTPService();
 
     @Override
-    public void extensionStart(@NotNull final ExtensionStartInput extensionStartInput,
+    public final void extensionStart(@NotNull final ExtensionStartInput extensionStartInput,
                                @NotNull final ExtensionStartOutput extensionStartOutput) {
         try {
             @NotNull final File extensionHomeFolder = extensionStartInput.getExtensionInformation().getExtensionHomeFolder();
@@ -63,12 +62,13 @@ public class HeartbeatMain implements ExtensionMain {
     }
 
     @Override
-    public void extensionStop(@NotNull final ExtensionStopInput extensionStopInput, @NotNull final ExtensionStopOutput extensionStopOutput) {
+    public final void extensionStop(@NotNull final ExtensionStopInput extensionStopInput, @NotNull final ExtensionStopOutput extensionStopOutput) {
         httpService.stop();
         LOG.info("Stop {} ", extensionStopInput.getExtensionInformation().getName());
     }
 
-    private void startRestService(ExtensionConfiguration extensionConfiguration) {
+    @NotNull
+    private void startRestService(@NotNull final ExtensionConfiguration extensionConfiguration) {
         @NotNull final Heartbeat config = extensionConfiguration.getHeartbeatConfig();
         httpService.start(config, new HiveMQHeartbeatServlet());
     }

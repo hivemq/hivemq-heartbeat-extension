@@ -27,18 +27,19 @@ import java.io.IOException;
 
 public class ExtensionConfiguration {
 
-    private @NotNull static final String EXTENSION_CONFIG_FILE_NAME = "extension-config.xml";
-    private @NotNull static final Logger LOG = LoggerFactory.getLogger(ExtensionConfiguration.class);
-    private @NotNull final ConfigurationXmlParser configurationXmlParser = new ConfigurationXmlParser();
-    private @NotNull final Heartbeat heartbeat;
+    @NotNull private static final String EXTENSION_CONFIG_FILE_NAME = "extension-config.xml";
+    @NotNull private static final Logger LOG = LoggerFactory.getLogger(ExtensionConfiguration.class);
+    @NotNull private final ConfigurationXmlParser configurationXmlParser = new ConfigurationXmlParser();
+    @NotNull private final Heartbeat heartbeat;
 
 
-    public ExtensionConfiguration(final @NotNull File extensionHomeFolder) {
+    @NotNull
+    public ExtensionConfiguration( @NotNull final File extensionHomeFolder) {
         heartbeat = read(new File(extensionHomeFolder, EXTENSION_CONFIG_FILE_NAME));
     }
 
     @NotNull
-    public Heartbeat getHeartbeatConfig() {
+    public final Heartbeat getHeartbeatConfig() {
         return heartbeat;
     }
 
@@ -59,7 +60,7 @@ public class ExtensionConfiguration {
     }
 
     @NotNull
-    private Heartbeat doRead(@NotNull File configFile, @NotNull Heartbeat defaultHeartbeat) {
+    private Heartbeat doRead(@NotNull final File configFile, @NotNull final Heartbeat defaultHeartbeat) {
         try {
             @NotNull final Heartbeat newHeartbeat = configurationXmlParser.unmarshalExtensionConfig(configFile);
             if (newHeartbeat.getPort() < 1) {

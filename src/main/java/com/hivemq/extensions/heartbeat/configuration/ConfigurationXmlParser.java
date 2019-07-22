@@ -32,22 +32,22 @@ import java.io.IOException;
 @ThreadSafe
 public class ConfigurationXmlParser {
 
-    private @NotNull static final Logger LOG = LoggerFactory.getLogger(ConfigurationXmlParser.class);
+    @NotNull private static final Logger LOG = LoggerFactory.getLogger(ConfigurationXmlParser.class);
 
     //jaxb context is thread safe
-    private @NotNull final JAXBContext jaxb;
+    @NotNull private final JAXBContext jaxb;
 
-    public ConfigurationXmlParser() {
+    ConfigurationXmlParser() {
         try {
             jaxb = JAXBContext.newInstance(Heartbeat.class);
         } catch (JAXBException e) {
             LOG.error("Error in the Heartbeat Extension. Could not initialize XML parser", e);
-            throw new RuntimeException(e);
+            throw new RuntimeException("Initialize XML parser Error", e);
         }
     }
 
     @NotNull
-    public Heartbeat unmarshalExtensionConfig(@NotNull final File file) throws IOException {
+    final Heartbeat unmarshalExtensionConfig(@NotNull final File file) throws IOException {
         try {
             final Unmarshaller unmarshaller = jaxb.createUnmarshaller();
             return (Heartbeat) unmarshaller.unmarshal(file);

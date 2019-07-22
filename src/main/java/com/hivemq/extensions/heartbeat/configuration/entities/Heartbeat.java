@@ -26,16 +26,20 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Heartbeat {
 
-    @XmlElement(name = "port", required = true, defaultValue = "9090")
-    private int port = 9090;
+    private static final int DEFAULT_PORT = 9090;
+    private static final String DEFAULT_BIND_ADDRESS = "0.0.0.0";
+    private static final String DEFAULT_SERVLET_PATH = "/heartbeat";
+
+    @XmlElement(name = "port", required = true, defaultValue = ""+DEFAULT_PORT)
+    private int port = DEFAULT_PORT;
 
     @NotNull
-    @XmlElement(name = "bind-address", required = true, defaultValue = "0.0.0.0")
-    private String bindAddress = "0.0.0.0";
+    @XmlElement(name = "bind-address", required = true, defaultValue = DEFAULT_BIND_ADDRESS)
+    private String bindAddress = DEFAULT_BIND_ADDRESS;
 
     @NotNull
-    @XmlElement(name = "path", required = true, defaultValue = "/heartbeat")
-    private String path = "/heartbeat";
+    @XmlElement(name = "path", required = true, defaultValue = DEFAULT_SERVLET_PATH)
+    private String path = DEFAULT_SERVLET_PATH;
 
     public Heartbeat() { }
 

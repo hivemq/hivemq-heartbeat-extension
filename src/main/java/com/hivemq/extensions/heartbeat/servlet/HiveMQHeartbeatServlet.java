@@ -35,12 +35,12 @@ import javax.servlet.http.HttpServletResponse;
 public class HiveMQHeartbeatServlet extends HttpServlet {
 
     private static final long serialVersionUID = 0L;
-    private @NotNull static final Logger LOG = LoggerFactory.getLogger(HiveMQHeartbeatServlet.class);
-    private @NotNull static final String HTTP_HEARTBEAT_METER = "http-heartbeat-meter";
+    @NotNull private static final Logger LOG = LoggerFactory.getLogger(HiveMQHeartbeatServlet.class);
+    @NotNull private static final String HTTP_HEARTBEAT_METER = "http-heartbeat-meter";
 
 
     @Override
-    protected void doGet(@NotNull final HttpServletRequest req, @NotNull final HttpServletResponse resp) {
+    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
 
         LOG.debug("Heartbeat Request from IP {} (port {}) received on listener {}:{} and URI {}",
                 req.getRemoteAddr(), req.getRemotePort(), req.getLocalAddr(), req.getLocalPort(), req.getRequestURI());
