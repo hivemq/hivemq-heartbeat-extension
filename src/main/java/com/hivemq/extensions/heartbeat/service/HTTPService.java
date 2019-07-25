@@ -19,6 +19,9 @@ package com.hivemq.extensions.heartbeat.service;
 
 import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.annotations.Nullable;
+import com.hivemq.extension.sdk.api.services.CompletableScheduledFuture;
+import com.hivemq.extension.sdk.api.services.Services;
+import com.hivemq.extension.sdk.api.services.admin.LifecycleStage;
 import com.hivemq.extensions.heartbeat.configuration.entities.Heartbeat;
 import com.hivemq.extensions.heartbeat.servlet.HiveMQHeartbeatServlet;
 import org.eclipse.jetty.server.Server;
@@ -28,6 +31,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 
 /**
  * Build and start an HTTP service and provides the HiveMQHeartbeatServlet.
@@ -36,16 +42,41 @@ import java.net.InetSocketAddress;
  */
 public class HTTPService {
 
-    @NotNull private static final Logger LOG = LoggerFactory.getLogger(HTTPService.class);
-    @Nullable private static Server server;
+    private static final @NotNull Logger LOG = LoggerFactory.getLogger(HTTPService.class);
+    private static @Nullable Server server;
+    private static @NotNull Heartbeat heartbeat;
+    private static @NotNull HiveMQHeartbeatServlet hiveMQHeartbeatServlet;
+    private static @NotNull CompletableScheduledFuture<?> completableScheduledFuture;
 
-    public HTTPService() { }
+    public HTTPService(final @NotNull Heartbeat heartbeat, final @NotNull HiveMQHeartbeatServlet hiveMQHeartbeatServlet) {
+        this.heartbeat = heartbeat;
+        this.hiveMQHeartbeatServlet= hiveMQHeartbeatServlet;
+    }
 
     @NotNull
-    public final void start(@NotNull final Heartbeat heartbeat, @NotNull final HiveMQHeartbeatServlet hiveMQHeartbeatServlet) {
+    public void tryStartHttpServer() {
+        completableScheduledFuture = Services.extensionExecutorService().scheduleWithFixedDelay(() -> {
+            boolean brokerReady = Services.adminService().getCurrentStage() == LifecycleStage.STARTED_SUCCESSFULLY;
+            if (!brokerReady) {
+                LOG.debug("HTTP service start: Wait until HiveMQ is ready. Current State is: {}.", Services.adminService().getCurrentStage().name());
+            } else {
+                doStart();
+            }
+        }, 5, 5, TimeUnit.SECONDS);
+    }
 
+
+    @NotNull
+    private void doStart() {
+
+        if( server != null && server.isRunning()) {
+            //shutdown the wait task - because we already have started!
+            completableScheduledFuture.cancel(true);
+            return;
+        }
+
+        LOG.info("Initializing Heartbeat HTTP service");
         try {
-            LOG.info("Initializing HTTP service");
             @NotNull final ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
             servletContextHandler.setContextPath("/");
 
@@ -59,26 +90,26 @@ public class HTTPService {
 
             server.start();
 
+            LOG.info("Heartbeat HTTP service started with status running '{}' on address '{}' and port '{}' for path '{}' ",
+                    server.isRunning(), heartbeat.getBindAddress(), heartbeat.getPort(), heartbeat.getPath());
+
         } catch (final Exception e) {
-            LOG.error("Could not start HTTP service. ", e);
+            LOG.error("Could not start Heartbeat HTTP service. ", e);
             throw new RuntimeException("Could not start HTTP service. ", e);
         }
-
-        LOG.info("HTTP service started successfully on address '{}' and port '{}' for path '{}' ", heartbeat.getBindAddress(), heartbeat.getPort(), heartbeat.getPath());
-
     }
 
     @NotNull
-    public final void stop() {
+    public final void stopHTTPServer() {
         try {
-            if( server != null && server.isRunning() ) {
+            if (server != null && server.isRunning()) {
                 server.stop();
-                LOG.info("Stopped HTTP server");
+                LOG.info("Stopped HeartbeatHTTP server");
             } else {
-                LOG.info("No HTTP server to stop");
+                LOG.info("No Heartbeat HTTP server to stop");
             }
         } catch (final Exception e) {
-            LOG.error("Could not stop HTTP server. ", e);
+            LOG.error("Could not stop Heartbeat HTTP server. ", e);
         }
     }
 

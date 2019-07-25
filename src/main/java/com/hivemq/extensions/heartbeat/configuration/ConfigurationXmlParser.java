@@ -32,10 +32,10 @@ import java.io.IOException;
 @ThreadSafe
 public class ConfigurationXmlParser {
 
-    @NotNull private static final Logger LOG = LoggerFactory.getLogger(ConfigurationXmlParser.class);
+    private static final @NotNull Logger LOG = LoggerFactory.getLogger(ConfigurationXmlParser.class);
 
     //jaxb context is thread safe
-    @NotNull private final JAXBContext jaxb;
+    private final @NotNull JAXBContext jaxb;
 
     ConfigurationXmlParser() {
         try {
@@ -47,7 +47,7 @@ public class ConfigurationXmlParser {
     }
 
     @NotNull
-    final Heartbeat unmarshalExtensionConfig(@NotNull final File file) throws IOException {
+    final Heartbeat unmarshalExtensionConfig(final @NotNull File file) throws IOException {
         try {
             final Unmarshaller unmarshaller = jaxb.createUnmarshaller();
             return (Heartbeat) unmarshaller.unmarshal(file);

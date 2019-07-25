@@ -35,7 +35,7 @@
         <dependency>
             <groupId>com.hivemq</groupId>
             <artifactId>hivemq-extension-sdk</artifactId>
-            <version>4.1.0</version>
+            <version>4.2.0</version>
         </dependency>
 
         <dependency>
@@ -211,7 +211,7 @@
                                     <goal>hivemq</goal>
                                 </goals>
                                 <configuration>
-                                    <hiveMQDir>/Users/ahelmbre/hivemq-4.1.1</hiveMQDir>
+                                    <hiveMQDir>/Users/ahelmbre/hivemq-4.2.0</hiveMQDir>
                                     <debugMode>SERVER</debugMode>
                                 </configuration>
                             </execution>

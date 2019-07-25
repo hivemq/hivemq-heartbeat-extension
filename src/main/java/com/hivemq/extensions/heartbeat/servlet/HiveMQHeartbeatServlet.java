@@ -35,9 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 public class HiveMQHeartbeatServlet extends HttpServlet {
 
     private static final long serialVersionUID = 0L;
-    @NotNull private static final Logger LOG = LoggerFactory.getLogger(HiveMQHeartbeatServlet.class);
-    @NotNull private static final String HTTP_HEARTBEAT_METER = "http-heartbeat-meter";
-
+    private static final @NotNull Logger LOG = LoggerFactory.getLogger(HiveMQHeartbeatServlet.class);
+    private static final @NotNull String HTTP_HEARTBEAT_METER = "http-heartbeat-meter";
 
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) {

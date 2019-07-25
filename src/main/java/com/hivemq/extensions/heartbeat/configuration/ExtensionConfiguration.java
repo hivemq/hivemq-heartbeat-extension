@@ -27,14 +27,14 @@ import java.io.IOException;
 
 public class ExtensionConfiguration {
 
-    @NotNull private static final String EXTENSION_CONFIG_FILE_NAME = "extension-config.xml";
-    @NotNull private static final Logger LOG = LoggerFactory.getLogger(ExtensionConfiguration.class);
-    @NotNull private final ConfigurationXmlParser configurationXmlParser = new ConfigurationXmlParser();
-    @NotNull private final Heartbeat heartbeat;
+    private static final @NotNull String EXTENSION_CONFIG_FILE_NAME = "extension-config.xml";
+    private static final @NotNull Logger LOG = LoggerFactory.getLogger(ExtensionConfiguration.class);
+    private final @NotNull ConfigurationXmlParser configurationXmlParser = new ConfigurationXmlParser();
+    private final @NotNull Heartbeat heartbeat;
 
 
     @NotNull
-    public ExtensionConfiguration( @NotNull final File extensionHomeFolder) {
+    public ExtensionConfiguration(final @NotNull File extensionHomeFolder) {
         heartbeat = read(new File(extensionHomeFolder, EXTENSION_CONFIG_FILE_NAME));
     }
 
@@ -48,9 +48,9 @@ public class ExtensionConfiguration {
      * @return the new heartbeat based on the file contents or null if the heartbeat is invalid
      */
     @NotNull
-    private Heartbeat read(@NotNull final File configFile) {
+    private Heartbeat read(final @NotNull File configFile) {
 
-        @NotNull final Heartbeat defaultHeartbeat = new Heartbeat();
+        final @NotNull Heartbeat defaultHeartbeat = new Heartbeat();
         if (configFile.exists()  &&  configFile.canRead() && configFile.length() > 0 ) {
             return doRead(configFile, defaultHeartbeat);
         } else {
@@ -60,9 +60,9 @@ public class ExtensionConfiguration {
     }
 
     @NotNull
-    private Heartbeat doRead(@NotNull final File configFile, @NotNull final Heartbeat defaultHeartbeat) {
+    private Heartbeat doRead(final @NotNull File configFile, final @NotNull Heartbeat defaultHeartbeat) {
         try {
-            @NotNull final Heartbeat newHeartbeat = configurationXmlParser.unmarshalExtensionConfig(configFile);
+            final @NotNull Heartbeat newHeartbeat = configurationXmlParser.unmarshalExtensionConfig(configFile);
             if (newHeartbeat.getPort() < 1) {
                 LOG.warn("Port must be greater than 0, using default port " + defaultHeartbeat.getPort());
                 newHeartbeat.setPort(defaultHeartbeat.getPort());

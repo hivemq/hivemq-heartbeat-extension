@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.*;
 public class Heartbeat {
 
     private static final int DEFAULT_PORT = 9090;
+
     private static final String DEFAULT_BIND_ADDRESS = "0.0.0.0";
     private static final String DEFAULT_SERVLET_PATH = "/heartbeat";
 
@@ -42,12 +43,6 @@ public class Heartbeat {
     private String path = DEFAULT_SERVLET_PATH;
 
     public Heartbeat() { }
-
-    public Heartbeat(final int port, final String bindAddress, final String path) {
-        this.port = port;
-        this.bindAddress = bindAddress;
-        this.path = path;
-    }
 
     public int getPort() {
         return port;

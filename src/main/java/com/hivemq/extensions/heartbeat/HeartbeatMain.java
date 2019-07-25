@@ -25,7 +25,6 @@ import com.hivemq.extension.sdk.api.parameter.ExtensionStartOutput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStopInput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStopOutput;
 import com.hivemq.extensions.heartbeat.configuration.ExtensionConfiguration;
-import com.hivemq.extensions.heartbeat.configuration.entities.Heartbeat;
 import com.hivemq.extensions.heartbeat.service.HTTPService;
 import com.hivemq.extensions.heartbeat.servlet.HiveMQHeartbeatServlet;
 import org.slf4j.Logger;
@@ -44,16 +43,18 @@ import java.io.File;
  */
 public class HeartbeatMain implements ExtensionMain {
 
-    @NotNull private static final Logger LOG = LoggerFactory.getLogger(HeartbeatMain.class);
-    @NotNull private final HTTPService httpService = new HTTPService();
+    private static final @NotNull Logger LOG = LoggerFactory.getLogger(HeartbeatMain.class);
+    private static @NotNull HTTPService httpService;
 
     @Override
-    public final void extensionStart(@NotNull final ExtensionStartInput extensionStartInput,
-                               @NotNull final ExtensionStartOutput extensionStartOutput) {
+    public final void extensionStart(final @NotNull ExtensionStartInput extensionStartInput,
+                                     final @NotNull ExtensionStartOutput extensionStartOutput) {
         try {
-            @NotNull final File extensionHomeFolder = extensionStartInput.getExtensionInformation().getExtensionHomeFolder();
-            @NotNull final ExtensionConfiguration extensionConfiguration = new ExtensionConfiguration(extensionHomeFolder);
+            final @NotNull File extensionHomeFolder = extensionStartInput.getExtensionInformation().getExtensionHomeFolder();
+            final @NotNull ExtensionConfiguration extensionConfiguration = new ExtensionConfiguration(extensionHomeFolder);
+
             startRestService(extensionConfiguration);
+
             LOG.info("Start {}", extensionStartInput.getExtensionInformation().getName());
         } catch (Exception e) {
             extensionStartOutput.preventExtensionStartup("Heartbeat Extension cannot be started due to errors. ");
@@ -62,15 +63,17 @@ public class HeartbeatMain implements ExtensionMain {
     }
 
     @Override
-    public final void extensionStop(@NotNull final ExtensionStopInput extensionStopInput, @NotNull final ExtensionStopOutput extensionStopOutput) {
-        httpService.stop();
+    public final void extensionStop(final @NotNull ExtensionStopInput extensionStopInput, final @NotNull ExtensionStopOutput extensionStopOutput) {
         LOG.info("Stop {} ", extensionStopInput.getExtensionInformation().getName());
+        if( httpService != null ) {
+            httpService.stopHTTPServer();
+        }
     }
 
     @NotNull
-    private void startRestService(@NotNull final ExtensionConfiguration extensionConfiguration) {
-        @NotNull final Heartbeat config = extensionConfiguration.getHeartbeatConfig();
-        httpService.start(config, new HiveMQHeartbeatServlet());
+    private void startRestService(final @NotNull ExtensionConfiguration extensionConfiguration) {
+        httpService = new HTTPService(extensionConfiguration.getHeartbeatConfig(), new HiveMQHeartbeatServlet());
+        httpService.tryStartHttpServer();
     }
 
 }
