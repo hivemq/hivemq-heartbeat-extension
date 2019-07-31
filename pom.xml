@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>HiveMQ Heartbeat Extension</name>
-    <groupId>com.hivemq.extension.heartbeat</groupId>
+    <groupId>com.hivemq.extension</groupId>
     <artifactId>hivemq-heartbeat-extension</artifactId>
     <version>1.0.0</version>
 
@@ -211,7 +211,7 @@
                                     <goal>hivemq</goal>
                                 </goals>
                                 <configuration>
-                                    <hiveMQDir>/Users/ahelmbre/hivemq-4.2.0</hiveMQDir>
+                                    <hiveMQDir>/path/to/your/hivemq-version-4.2.x</hiveMQDir>
                                     <debugMode>SERVER</debugMode>
                                 </configuration>
                             </execution>

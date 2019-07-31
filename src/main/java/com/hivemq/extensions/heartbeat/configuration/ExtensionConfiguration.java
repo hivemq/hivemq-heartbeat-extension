@@ -56,11 +56,11 @@ public class ExtensionConfiguration {
                 final @NotNull Heartbeat newHeartbeat = configurationXmlParser.unmarshalExtensionConfig(configFile);
                 return validate(newHeartbeat, defaultHeartbeat);
             } catch (IOException e) {
-                LOG.warn("Could not read Heartbeat extension configuration file, reason: {}, using defaults {}.", e.getMessage(), defaultHeartbeat.toString());
+                LOG.warn("Could not read Heartbeat extension configuration file, reason: {}, using defaults {}.", e.getMessage(), defaultHeartbeat);
                 return defaultHeartbeat;
             }
         } else {
-            LOG.warn("Unable to read Heartbeat extension configuration file {}, using defaults", configFile.getAbsolutePath());
+            LOG.warn("Unable to read Heartbeat extension configuration file {}, using defaults {}.", configFile.getAbsolutePath(), defaultHeartbeat);
             return defaultHeartbeat;
         }
     }

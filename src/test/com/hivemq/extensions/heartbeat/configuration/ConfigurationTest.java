@@ -68,12 +68,7 @@ public class ConfigurationTest {
                         "        <port>-4711</port>\n" +
                         "</heartbeat-extension-configuration>\n";
 
-        try {
-            Files.writeString(file.toPath(), portConfig);
-        } catch (SaslException e) {
-            // expected
-            ;
-        }
+        Files.writeString(file.toPath(), portConfig);
         final Heartbeat config = new ExtensionConfiguration(root).getHeartbeatConfig();
         assertEquals(config.getPort(), 9090);
     }

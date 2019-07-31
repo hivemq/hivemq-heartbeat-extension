@@ -42,7 +42,7 @@ public class ConfigurationXmlParser {
             jaxb = JAXBContext.newInstance(Heartbeat.class);
         } catch (JAXBException e) {
             LOG.error("Error in the Heartbeat Extension. Could not initialize XML parser", e);
-            throw new RuntimeException("Initialize XML parser Error", e);
+            throw new RuntimeException("Could not initialize XML parser.", e);
         }
     }
 
@@ -53,7 +53,7 @@ public class ConfigurationXmlParser {
             return (Heartbeat) unmarshaller.unmarshal(file);
         } catch (JAXBException e) {
             LOG.error("Error in the Heartbeat Extension. Could not unmarshal XML configuration", e);
-            throw new IOException("Could not unmarshal XML configuration Error", e);
+            throw new IOException("Could not unmarshal XML configuration.", e);
         }
     }
 

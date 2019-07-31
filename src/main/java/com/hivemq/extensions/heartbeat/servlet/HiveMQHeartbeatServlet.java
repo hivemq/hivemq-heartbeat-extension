@@ -51,8 +51,10 @@ public class HiveMQHeartbeatServlet extends HttpServlet {
         //create and mark metric for heartbeat
         Services.metricRegistry().meter(HTTP_HEARTBEAT_METER).mark();
 
-        LOG.debug("Heartbeat Request from IP {} (port {}) received on listener {}:{} and URI {}, with status {} ",
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Heartbeat request from IP {} (port {}) received on listener {}:{} and URI {}, with status {} ",
                 req.getRemoteAddr(), req.getRemotePort(), req.getLocalAddr(), req.getLocalPort(), req.getRequestURI(), status);
+        }
 
     }
 

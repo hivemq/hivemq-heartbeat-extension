@@ -57,7 +57,6 @@ public class HeartbeatMain implements ExtensionMain {
             final @NotNull ExtensionConfiguration extensionConfiguration = new ExtensionConfiguration(extensionHomeFolder);
 
             startRestService(extensionConfiguration);
-            LOG.info("Start {}", extensionStartInput.getExtensionInformation().getName());
 
         } catch (Exception e) {
             extensionStartOutput.preventExtensionStartup("Heartbeat Extension cannot be started.");
@@ -67,7 +66,6 @@ public class HeartbeatMain implements ExtensionMain {
 
     @Override
     public final void extensionStop(final @NotNull ExtensionStopInput extensionStopInput, final @NotNull ExtensionStopOutput extensionStopOutput) {
-        LOG.info("Stop {} ", extensionStopInput.getExtensionInformation().getName());
         if( httpService != null ) {
             httpService.stopHTTPServer();
         }

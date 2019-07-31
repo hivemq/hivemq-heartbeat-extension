@@ -59,7 +59,7 @@ public class HTTPService {
 
         LOG.info("Initializing Heartbeat HTTP service");
         try {
-            @NotNull final ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            final @NotNull ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
             servletContextHandler.setContextPath("/");
 
             final InetSocketAddress address = new InetSocketAddress(heartbeat.getBindAddress(), heartbeat.getPort());
@@ -67,7 +67,7 @@ public class HTTPService {
             server = new Server(address);
             server.setHandler(servletContextHandler);
 
-            @NotNull final ServletHolder holder = new ServletHolder(hiveMQHeartbeatServlet);
+            final @NotNull ServletHolder holder = new ServletHolder(hiveMQHeartbeatServlet);
             servletContextHandler.addServlet(holder, heartbeat.getPath());
 
             server.start();
@@ -76,8 +76,8 @@ public class HTTPService {
                     server.isRunning(), heartbeat.getBindAddress(), heartbeat.getPort(), heartbeat.getPath());
 
         } catch (final Exception e) {
-            LOG.error("Could not start Heartbeat HTTP service. ", e);
-            throw new RuntimeException("Could not start HTTP service. ", e);
+            LOG.error("Could not start Heartbeat HTTP server.", e);
+            throw new RuntimeException("Could not start Heartbeat HTTP server.", e);
         }
     }
 
@@ -86,12 +86,12 @@ public class HTTPService {
         try {
             if (server != null && server.isRunning()) {
                 server.stop();
-                LOG.info("Stopped HeartbeatHTTP server");
+                LOG.info("Stopped Heartbeat HTTP server.");
             } else {
-                LOG.info("No Heartbeat HTTP server to stop");
+                LOG.info("Heartbeat HTTP server already stopped.");
             }
         } catch (final Exception e) {
-            LOG.error("Could not stop Heartbeat HTTP server. ", e);
+            LOG.error("Could not stop Heartbeat HTTP server.", e);
         }
     }
 
