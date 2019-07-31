@@ -43,11 +43,11 @@ import java.util.function.BiConsumer;
 public class HTTPService {
 
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(HTTPService.class);
+    private final @NotNull Heartbeat heartbeat;
+    private final @NotNull HiveMQHeartbeatServlet hiveMQHeartbeatServlet;
     private static @Nullable Server server;
-    private static @NotNull Heartbeat heartbeat;
-    private static @NotNull HiveMQHeartbeatServlet hiveMQHeartbeatServlet;
-    private static @NotNull CompletableScheduledFuture<?> completableScheduledFuture;
 
+    @NotNull
     public HTTPService(final @NotNull Heartbeat heartbeat, final @NotNull HiveMQHeartbeatServlet hiveMQHeartbeatServlet) {
         this.heartbeat = heartbeat;
         this.hiveMQHeartbeatServlet= hiveMQHeartbeatServlet;
