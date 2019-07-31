@@ -14,7 +14,7 @@ import java.nio.file.Files;
 
 import static org.junit.Assert.assertEquals;
 
-public class ConfigurationTest {
+public class ExtensionConfigurationTest {
 
     private static String extensionContent =
             "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +

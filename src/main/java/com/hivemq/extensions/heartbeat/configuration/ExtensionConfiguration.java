@@ -30,16 +30,20 @@ public class ExtensionConfiguration {
     private static final @NotNull String EXTENSION_CONFIG_FILE_NAME = "extension-config.xml";
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(ExtensionConfiguration.class);
     private final @NotNull ConfigurationXmlParser configurationXmlParser = new ConfigurationXmlParser();
-    private final @NotNull Heartbeat heartbeat;
+    private final @NotNull File extensionHomeFolder;
+    private Heartbeat heartbeat;
 
 
     @NotNull
     public ExtensionConfiguration(final @NotNull File extensionHomeFolder) {
-        heartbeat = read(new File(extensionHomeFolder, EXTENSION_CONFIG_FILE_NAME));
+        this.extensionHomeFolder = extensionHomeFolder;
     }
 
     @NotNull
     public final Heartbeat getHeartbeatConfig() {
+        if( heartbeat == null ) {
+            heartbeat = read(new File(extensionHomeFolder, EXTENSION_CONFIG_FILE_NAME));
+        }
         return heartbeat;
     }
 
