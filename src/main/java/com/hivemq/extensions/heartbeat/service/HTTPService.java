@@ -53,27 +53,9 @@ public class HTTPService {
         this.hiveMQHeartbeatServlet= hiveMQHeartbeatServlet;
     }
 
-    @NotNull
-    public void tryStartHttpServer() {
-        completableScheduledFuture = Services.extensionExecutorService().scheduleWithFixedDelay(() -> {
-            boolean brokerReady = Services.adminService().getCurrentStage() == LifecycleStage.STARTED_SUCCESSFULLY;
-            if (!brokerReady) {
-                LOG.debug("HTTP service start: Wait until HiveMQ is ready. Current State is: {}.", Services.adminService().getCurrentStage().name());
-            } else {
-                doStart();
-            }
-        }, 5, 5, TimeUnit.SECONDS);
-    }
-
 
     @NotNull
-    private void doStart() {
-
-        if( server != null && server.isRunning()) {
-            //shutdown the wait task - because we already have started!
-            completableScheduledFuture.cancel(true);
-            return;
-        }
+    public void startHttpServer() {
 
         LOG.info("Initializing Heartbeat HTTP service");
         try {

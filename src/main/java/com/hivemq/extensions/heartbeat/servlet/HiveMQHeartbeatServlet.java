@@ -19,6 +19,7 @@ package com.hivemq.extensions.heartbeat.servlet;
 
 import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.services.Services;
+import com.hivemq.extension.sdk.api.services.admin.LifecycleStage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,14 +42,18 @@ public class HiveMQHeartbeatServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
 
-        LOG.debug("Heartbeat Request from IP {} (port {}) received on listener {}:{} and URI {}",
-                req.getRemoteAddr(), req.getRemotePort(), req.getLocalAddr(), req.getLocalPort(), req.getRequestURI());
+        final int status = (Services.adminService().getCurrentStage() == LifecycleStage.STARTED_SUCCESSFULLY )
+                ? HttpServletResponse.SC_OK
+                : HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
-        //just returning a 200 - OK
-        resp.setStatus(HttpServletResponse.SC_OK);
+        resp.setStatus(status);
 
         //create and mark metric for heartbeat
         Services.metricRegistry().meter(HTTP_HEARTBEAT_METER).mark();
+
+        LOG.debug("Heartbeat Request from IP {} (port {}) received on listener {}:{} and URI {}, with status {} ",
+                req.getRemoteAddr(), req.getRemotePort(), req.getLocalAddr(), req.getLocalPort(), req.getRequestURI(), status);
+
     }
 
 }

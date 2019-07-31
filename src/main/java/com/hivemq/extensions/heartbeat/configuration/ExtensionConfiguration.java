@@ -45,14 +45,20 @@ public class ExtensionConfiguration {
 
     /**
      * @param configFile the new heartbeat file to read.
-     * @return the new heartbeat based on the file contents or null if the heartbeat is invalid
+     * @return the new heartbeat based on the file contents or default if the heartbeat configuration is invalid
      */
     @NotNull
     private Heartbeat read(final @NotNull File configFile) {
 
         final @NotNull Heartbeat defaultHeartbeat = new Heartbeat();
         if (configFile.exists()  &&  configFile.canRead() && configFile.length() > 0 ) {
-            return doRead(configFile, defaultHeartbeat);
+            try {
+                final @NotNull Heartbeat newHeartbeat = configurationXmlParser.unmarshalExtensionConfig(configFile);
+                return validate(newHeartbeat, defaultHeartbeat);
+            } catch (IOException e) {
+                LOG.warn("Could not read Heartbeat extension configuration file, reason: {}, using defaults {}.", e.getMessage(), defaultHeartbeat.toString());
+                return defaultHeartbeat;
+            }
         } else {
             LOG.warn("Unable to read Heartbeat extension configuration file {}, using defaults", configFile.getAbsolutePath());
             return defaultHeartbeat;
@@ -60,9 +66,7 @@ public class ExtensionConfiguration {
     }
 
     @NotNull
-    private Heartbeat doRead(final @NotNull File configFile, final @NotNull Heartbeat defaultHeartbeat) {
-        try {
-            final @NotNull Heartbeat newHeartbeat = configurationXmlParser.unmarshalExtensionConfig(configFile);
+    private Heartbeat validate(final @NotNull Heartbeat newHeartbeat, final @NotNull Heartbeat defaultHeartbeat) {
             if (newHeartbeat.getPort() < 1) {
                 LOG.warn("Port must be greater than 0, using default port " + defaultHeartbeat.getPort());
                 newHeartbeat.setPort(defaultHeartbeat.getPort());
@@ -78,11 +82,6 @@ public class ExtensionConfiguration {
                 newHeartbeat.setPath(defaultHeartbeat.getPath());
             }
             return newHeartbeat;
-
-        } catch (IOException e) {
-            LOG.warn("Could not read Heartbeat extension configuration file, reason: {}, using defaults {}.", e.getMessage(), defaultHeartbeat.toString());
-            return defaultHeartbeat;
-        }
     }
 
 }

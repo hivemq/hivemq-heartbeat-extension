@@ -1,12 +1,12 @@
 == HiveMQ Heartbeat Extension
 
-This extension allows integration with the Load Balancer and Proxy.
+This extension allows integration with with load balancers and proxies.
 
 === How it works
 
-This extension provides a readiness check  via HTTP, which means a service is able to
+This extension provides a readiness check via HTTP, which means a service is able to
 detect if a HiveMQ instance is
-offline and the Load Balancer is thus able to remove the HiveMQ node from the load balancing.
+offline and the load balancer is thus able to remove the HiveMQ node from the load balancing.
 
 === Installation
 Unzip the file: `hivemq-heartbeat-extension-<version>-distribution.zip` to the directory: `<HIVEMQ_HOME>/extensions`
@@ -18,7 +18,7 @@ The properties are preconfigured with standard settings and can be adapted to yo
 
 === Configuration
 
-The Heartbeat extension uses its own configuration file 'extension-config.xml' which must be placed in HiveMQ's extension folder.
+The Heartbeat extension uses its own configuration file 'extension-config.xml' which must be placed in the extensions folder of HiveMQ.
 
 ==== General Configuration
 
@@ -41,12 +41,12 @@ The Heartbeat extension uses its own configuration file 'extension-config.xml' w
 </heartbeat-extension-configuration>
 ----
 
-IMPORTANT: By Default the Heartbeat is available at http://MY-IP:PORT/heartbeat
+IMPORTANT: By Default the Heartbeat is available at http://MY-IP:9090/heartbeat
 
 
 === Metrics
 
-This extension exposes a custom metrics to HiveMQs holistic metric registry.
+This extension exposes a custom metric to HiveMQs holistic metric registry.
 
 |===
 | Metric name | Type | Description

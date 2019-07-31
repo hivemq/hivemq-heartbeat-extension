@@ -35,8 +35,11 @@ import java.io.File;
 /**
  * Main class for HiveMQ Heartbeat extension
  *
- * After HiveMQ is ready - Extension reads settings from configuration file and starts the HTTPS Server and the HeartbeatServlet
- * if HiveMQ stops - stops the HTTP Server
+ * If HiveMQ is starting and starts this extension:
+ *  The settings were read from configuration file
+ *  the HTTPS Server will be started
+ *  and the HeartbeatServlet instantiated.
+ * If HiveMQ stops - stops the HTTP Server
  *
  * @Author Anja Helmbrecht-Schaar
  *
@@ -54,11 +57,11 @@ public class HeartbeatMain implements ExtensionMain {
             final @NotNull ExtensionConfiguration extensionConfiguration = new ExtensionConfiguration(extensionHomeFolder);
 
             startRestService(extensionConfiguration);
-
             LOG.info("Start {}", extensionStartInput.getExtensionInformation().getName());
+
         } catch (Exception e) {
-            extensionStartOutput.preventExtensionStartup("Heartbeat Extension cannot be started due to errors. ");
-            LOG.error("Exception for {} thrown at start: ", extensionStartInput.getExtensionInformation().getName(), e);
+            extensionStartOutput.preventExtensionStartup("Heartbeat Extension cannot be started.");
+            LOG.error("{} extension could not be started. An exception was thrown while starting!", extensionStartInput.getExtensionInformation().getName(), e);
         }
     }
 
@@ -73,7 +76,7 @@ public class HeartbeatMain implements ExtensionMain {
     @NotNull
     private void startRestService(final @NotNull ExtensionConfiguration extensionConfiguration) {
         httpService = new HTTPService(extensionConfiguration.getHeartbeatConfig(), new HiveMQHeartbeatServlet());
-        httpService.tryStartHttpServer();
+        httpService.startHttpServer();
     }
 
 }
