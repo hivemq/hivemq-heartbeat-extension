@@ -7,6 +7,7 @@ This extension allows integration with with load balancers and proxies.
 This extension provides a readiness check via HTTP, which means a service is able to
 detect if a HiveMQ instance is
 offline and the load balancer is thus able to remove the HiveMQ node from the load balancing.
+HiveMQ 4.2.0 is required.
 
 === Installation
 Unzip the file: `hivemq-heartbeat-extension-<version>-distribution.zip` to the directory: `<HIVEMQ_HOME>/extensions`
