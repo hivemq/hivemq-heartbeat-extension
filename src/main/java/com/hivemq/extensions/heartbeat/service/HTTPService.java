@@ -19,9 +19,6 @@ package com.hivemq.extensions.heartbeat.service;
 
 import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.annotations.Nullable;
-import com.hivemq.extension.sdk.api.services.CompletableScheduledFuture;
-import com.hivemq.extension.sdk.api.services.Services;
-import com.hivemq.extension.sdk.api.services.admin.LifecycleStage;
 import com.hivemq.extensions.heartbeat.configuration.entities.Heartbeat;
 import com.hivemq.extensions.heartbeat.servlet.HiveMQHeartbeatServlet;
 import org.eclipse.jetty.server.Server;
@@ -31,9 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
 
 /**
  * Build and start an HTTP service and provides the HiveMQHeartbeatServlet.
@@ -50,7 +44,7 @@ public class HTTPService {
     @NotNull
     public HTTPService(final @NotNull Heartbeat heartbeat, final @NotNull HiveMQHeartbeatServlet hiveMQHeartbeatServlet) {
         this.heartbeat = heartbeat;
-        this.hiveMQHeartbeatServlet= hiveMQHeartbeatServlet;
+        this.hiveMQHeartbeatServlet = hiveMQHeartbeatServlet;
     }
 
 
