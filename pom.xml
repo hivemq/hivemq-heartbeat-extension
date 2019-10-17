@@ -21,7 +21,7 @@
     <name>HiveMQ Heartbeat Extension</name>
     <groupId>com.hivemq.extension</groupId>
     <artifactId>hivemq-heartbeat-extension</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <description>HiveMQ Heartbeat Extension</description>
 
@@ -122,7 +122,6 @@
                                     <exclude>com.hivemq:hivemq-extension-sdk</exclude>
                                     <exclude>org.slf4j:*</exclude>
                                     <exclude>ch.qos.logback:*</exclude>
-                                    <exclude>javax.servlet:*</exclude>
                                 </excludes>
                             </artifactSet>
                             <filters>
