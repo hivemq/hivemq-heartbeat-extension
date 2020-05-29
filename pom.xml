@@ -21,7 +21,7 @@
     <name>HiveMQ Heartbeat Extension</name>
     <groupId>com.hivemq.extension</groupId>
     <artifactId>hivemq-heartbeat-extension</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <description>HiveMQ Heartbeat Extension</description>
 
