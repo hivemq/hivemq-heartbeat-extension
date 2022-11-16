@@ -20,12 +20,11 @@ package com.hivemq.extensions.heartbeat.servlet;
 import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.services.Services;
 import com.hivemq.extension.sdk.api.services.admin.LifecycleStage;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -40,22 +39,26 @@ public class HiveMQHeartbeatServlet extends HttpServlet {
     private static final @NotNull String HTTP_HEARTBEAT_METER = "http-heartbeat-meter";
 
     @Override
-    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) {
+    protected void doGet(final @NotNull HttpServletRequest req, final @NotNull HttpServletResponse resp) {
 
-        final int status = (Services.adminService().getCurrentStage() == LifecycleStage.STARTED_SUCCESSFULLY )
-                ? HttpServletResponse.SC_OK
-                : HttpServletResponse.SC_SERVICE_UNAVAILABLE;
+        final int status = (Services.adminService().getCurrentStage() == LifecycleStage.STARTED_SUCCESSFULLY) ?
+                HttpServletResponse.SC_OK :
+                HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
         resp.setStatus(status);
 
         //create and mark metric for heartbeat
         Services.metricRegistry().meter(HTTP_HEARTBEAT_METER).mark();
 
-        if (LOG.isDebugEnabled()){
+        if (LOG.isDebugEnabled()) {
             LOG.debug("Heartbeat request from IP {} (port {}) received on listener {}:{} and URI {}, with status {} ",
-                req.getRemoteAddr(), req.getRemotePort(), req.getLocalAddr(), req.getLocalPort(), req.getRequestURI(), status);
+                    req.getRemoteAddr(),
+                    req.getRemotePort(),
+                    req.getLocalAddr(),
+                    req.getLocalPort(),
+                    req.getRequestURI(),
+                    status);
         }
 
     }
-
 }

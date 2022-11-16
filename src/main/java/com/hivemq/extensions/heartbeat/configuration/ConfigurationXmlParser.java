@@ -29,6 +29,9 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author Anja Helmbrecht-Schaar
+ */
 @ThreadSafe
 public class ConfigurationXmlParser {
 
@@ -46,8 +49,7 @@ public class ConfigurationXmlParser {
         }
     }
 
-    @NotNull
-    final Heartbeat unmarshalExtensionConfig(final @NotNull File file) throws IOException {
+    final @NotNull Heartbeat unmarshalExtensionConfig(final @NotNull File file) throws IOException {
         try {
             final Unmarshaller unmarshaller = jaxb.createUnmarshaller();
             return (Heartbeat) unmarshaller.unmarshal(file);

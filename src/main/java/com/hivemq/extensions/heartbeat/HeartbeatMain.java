@@ -20,6 +20,7 @@ package com.hivemq.extensions.heartbeat;
 
 import com.hivemq.extension.sdk.api.ExtensionMain;
 import com.hivemq.extension.sdk.api.annotations.NotNull;
+import com.hivemq.extension.sdk.api.annotations.Nullable;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStartInput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStartOutput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStopInput;
@@ -34,20 +35,19 @@ import java.io.File;
 
 /**
  * Main class for HiveMQ Heartbeat extension
- *
+ * <p>
  * If HiveMQ is starting and starts this extension:
- *  The settings were read from configuration file
- *  the HTTPS Server will be started
- *  and the HeartbeatServlet instantiated.
+ * The settings were read from configuration file
+ * the HTTPS Server will be started
+ * and the HeartbeatServlet instantiated.
  * If HiveMQ stops - stops the HTTP Server
  *
- * @Author Anja Helmbrecht-Schaar
- *
+ * @author Anja Helmbrecht-Schaar
  */
 public class HeartbeatMain implements ExtensionMain {
 
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(HeartbeatMain.class);
-    private static @NotNull HTTPService httpService;
+    private static @Nullable HTTPService httpService;
 
     @Override
     public final void extensionStart(final @NotNull ExtensionStartInput extensionStartInput,
@@ -66,12 +66,11 @@ public class HeartbeatMain implements ExtensionMain {
 
     @Override
     public final void extensionStop(final @NotNull ExtensionStopInput extensionStopInput, final @NotNull ExtensionStopOutput extensionStopOutput) {
-        if( httpService != null ) {
+        if (httpService != null) {
             httpService.stopHTTPServer();
         }
     }
 
-    @NotNull
     private void startRestService(final @NotNull ExtensionConfiguration extensionConfiguration) {
         httpService = new HTTPService(extensionConfiguration.getHeartbeatConfig(), new HiveMQHeartbeatServlet());
         httpService.startHttpServer();

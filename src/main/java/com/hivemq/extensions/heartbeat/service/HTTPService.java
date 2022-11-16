@@ -37,23 +37,23 @@ import java.net.InetSocketAddress;
 public class HTTPService {
 
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(HTTPService.class);
+    private static @Nullable Server server;
     private final @NotNull Heartbeat heartbeat;
     private final @NotNull HiveMQHeartbeatServlet hiveMQHeartbeatServlet;
-    private static @Nullable Server server;
 
-    @NotNull
-    public HTTPService(final @NotNull Heartbeat heartbeat, final @NotNull HiveMQHeartbeatServlet hiveMQHeartbeatServlet) {
+    public HTTPService(
+            final @NotNull Heartbeat heartbeat, final @NotNull HiveMQHeartbeatServlet hiveMQHeartbeatServlet) {
         this.heartbeat = heartbeat;
         this.hiveMQHeartbeatServlet = hiveMQHeartbeatServlet;
     }
 
 
-    @NotNull
     public void startHttpServer() {
 
         LOG.info("Initializing Heartbeat HTTP service");
         try {
-            final @NotNull ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            final @NotNull ServletContextHandler servletContextHandler =
+                    new ServletContextHandler(ServletContextHandler.SESSIONS);
             servletContextHandler.setContextPath("/");
 
             final InetSocketAddress address = new InetSocketAddress(heartbeat.getBindAddress(), heartbeat.getPort());
@@ -66,8 +66,12 @@ public class HTTPService {
 
             server.start();
 
-            LOG.info("Heartbeat HTTP service started with status running '{}' on address '{}' and port '{}' for path '{}' ",
-                    server.isRunning(), heartbeat.getBindAddress(), heartbeat.getPort(), heartbeat.getPath());
+            LOG.info(
+                    "Heartbeat HTTP service started with status running '{}' on address '{}' and port '{}' for path '{}' ",
+                    server.isRunning(),
+                    heartbeat.getBindAddress(),
+                    heartbeat.getPort(),
+                    heartbeat.getPath());
 
         } catch (final Exception e) {
             LOG.error("Could not start Heartbeat HTTP server.", e);
@@ -75,7 +79,6 @@ public class HTTPService {
         }
     }
 
-    @NotNull
     public final void stopHTTPServer() {
         try {
             if (server != null && server.isRunning()) {
