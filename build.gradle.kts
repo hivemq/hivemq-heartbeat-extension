@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.hivemq.extensions"
-description = "HiveMQ 4 Hello World Extension - a simple reference for all extension developers"
+description = "HiveMQ Heartbeat Extension - Provides a readiness check via HTTP"
 
 hivemqExtension {
     name.set("HiveMQ Heartbeat Extension")
