@@ -30,6 +30,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: ./build/hivemq-extension/hivemq-s3-cluster-discovery-extension-${{ github.event.release.name }}.zip
-          asset_name: hivemq-s3-cluster-discovery-extension-${{ github.event.release.name }}.zip
+          asset_path: ./build/hivemq-extension/hivemq-heartbeat-extension-${{ github.event.release.name }}.zip
+          asset_name: hivemq-heartbeat-extension-${{ github.event.release.name }}.zip
           asset_content_type: application/zip
