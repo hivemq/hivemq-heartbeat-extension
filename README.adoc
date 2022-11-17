@@ -61,5 +61,5 @@ If you want to contribute to HiveMQ Heartbeat Extension, see the link:CONTRIBUTI
 
 == License
 
-HiveMQ Heartbeat Extension is licensed under the `APACHE LICENSE, VERSION 2.0`. A copy of the license can be found link:LICENSE.txt[here].
+HiveMQ Heartbeat Extension is licensed under the `APACHE LICENSE, VERSION 2.0`. A copy of the license can be found link:LICENSE[here].
 
