@@ -13,11 +13,7 @@ hivemqExtension {
     author.set("HiveMQ")
     priority.set(1000)
     startPriority.set(1000)
-    sdkVersion.set("4.9.0")
-
-    resources {
-        from("LICENSE")
-    }
+    sdkVersion.set("${property("hivemq-extension-sdk.version")}")
 }
 
 dependencies {
@@ -45,7 +41,6 @@ tasks.asciidoctor {
 hivemqExtension.resources {
     from("LICENSE")
     from("README.adoc") { rename { "README.txt" } }
-    from("dns-discovery-diagram.png")
     from(tasks.asciidoctor)
 }
 
