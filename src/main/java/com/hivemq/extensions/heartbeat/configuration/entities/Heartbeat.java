@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * @author Anja Helmbrecht-Schaar
  */
+@SuppressWarnings("FieldMayBeFinal")
 @XmlRootElement(name = "heartbeat-extension-configuration")
 @XmlType(propOrder = {})
 @XmlAccessorType(XmlAccessType.NONE)
@@ -60,16 +61,8 @@ public class Heartbeat {
         return bindAddress;
     }
 
-    public void setBindAddress(final @NotNull String bindAddress) {
-        this.bindAddress = bindAddress;
-    }
-
     public @NotNull String getPath() {
         return path;
-    }
-
-    public void setPath(final @NotNull String path) {
-        this.path = path;
     }
 
     @Override

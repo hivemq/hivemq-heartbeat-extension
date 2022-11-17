@@ -26,13 +26,13 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ExtensionConfigurationTest {
+class ExtensionConfigurationTest {
 
     @TempDir
     private @NotNull Path tempDir;
 
     @Test
-    public void defaultConfiguration_ok() {
+    void defaultConfiguration_ok() {
         final Heartbeat config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
         final Heartbeat defaultConfig = new Heartbeat();
         assertEquals(config.getBindAddress(), defaultConfig.getBindAddress());
@@ -41,7 +41,7 @@ public class ExtensionConfigurationTest {
     }
 
     @Test
-    public void loadConfiguration_ok() throws IOException {
+    void loadConfiguration_ok() throws IOException {
         final String extensionContent = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<heartbeat-extension-configuration>\n" +
                 "        <port>4711</port>\n" +
@@ -59,7 +59,7 @@ public class ExtensionConfigurationTest {
 
 
     @Test
-    public void portConfiguration_Nok() throws IOException {
+    void portConfiguration_Nok() throws IOException {
         final String portConfig = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<heartbeat-extension-configuration>\n" +
                 "        <port>-4711</port>\n" +
