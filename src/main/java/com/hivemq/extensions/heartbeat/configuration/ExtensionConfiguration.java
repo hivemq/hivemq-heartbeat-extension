@@ -40,8 +40,7 @@ public class ExtensionConfiguration {
         this.extensionHomeFolder = extensionHomeFolder;
     }
 
-    @NotNull
-    public final Heartbeat getHeartbeatConfig() {
+    public @NotNull Heartbeat getHeartbeatConfig() {
         if (heartbeat == null) {
             heartbeat = read(new File(extensionHomeFolder, EXTENSION_CONFIG_FILE_NAME));
         }
@@ -73,8 +72,8 @@ public class ExtensionConfiguration {
         }
     }
 
-    @NotNull
-    private Heartbeat validate(final @NotNull Heartbeat newHeartbeat, final @NotNull Heartbeat defaultHeartbeat) {
+    private @NotNull Heartbeat validate(
+            final @NotNull Heartbeat newHeartbeat, final @NotNull Heartbeat defaultHeartbeat) {
         if (newHeartbeat.getPort() < 1) {
             LOG.warn("Port must be greater than 0, using default port " + defaultHeartbeat.getPort());
             newHeartbeat.setPort(defaultHeartbeat.getPort());
