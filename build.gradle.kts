@@ -67,15 +67,3 @@ license {
     header = rootDir.resolve("HEADER")
     mapping("java", "SLASHSTAR_STYLE")
 }
-
-/* ******************** debugging ******************** */
-
-tasks.prepareHivemqHome {
-    hivemqHomeDirectory.set(file("/your/path/to/hivemq-<VERSION>"))
-}
-
-tasks.runHivemqWithExtension {
-    debugOptions {
-        enabled.set(false)
-    }
-}
