@@ -1,8 +1,8 @@
 plugins {
-    id("com.hivemq.extension")
-    id("com.github.hierynomus.license")
-    id("io.github.sgtsilvio.gradle.defaults")
-    id("org.asciidoctor.jvm.convert")
+    alias(libs.plugins.hivemq.extension)
+    alias(libs.plugins.defaults)
+    alias(libs.plugins.license)
+    alias(libs.plugins.asciidoctor)
 }
 
 group = "com.hivemq.extensions"
@@ -13,7 +13,7 @@ hivemqExtension {
     author.set("HiveMQ")
     priority.set(1000)
     startPriority.set(1000)
-    sdkVersion.set("${property("hivemq-extension-sdk.version")}")
+    sdkVersion.set(libs.versions.hivemq.extensionSdk)
 
     resources {
         from("LICENSE")
@@ -23,14 +23,14 @@ hivemqExtension {
 }
 
 dependencies {
-    implementation("org.apache.commons:commons-lang3:${property("commons-lang.version")}")
-    implementation("org.apache.commons:commons-text:${property("commons-text.version")}")
+    implementation(libs.commonsLang)
+    implementation(libs.commonsText)
 
-    implementation("jakarta.xml.bind:jakarta.xml.bind-api:${property("jakarta-xml-bind.version")}")
-    runtimeOnly("com.sun.xml.bind:jaxb-impl:${property("jaxb.version")}")
+    implementation(libs.jaxb.api)
+    runtimeOnly(libs.jaxb.impl)
 
-    implementation("org.eclipse.jetty:jetty-server:${property("jetty.version")}")
-    implementation("org.eclipse.jetty:jetty-servlet:${property("jetty.version")}")
+    implementation(libs.jetty.server)
+    implementation(libs.jetty.servlet)
 }
 
 tasks.asciidoctor {
@@ -42,8 +42,8 @@ tasks.asciidoctor {
 /* ******************** test ******************** */
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter:${property("junit-jupiter.version")}")
-    testImplementation("org.mockito:mockito-core:${property("mockito.version")}")
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.mockito)
 }
 
 tasks.withType<Test>().configureEach {
@@ -53,13 +53,13 @@ tasks.withType<Test>().configureEach {
 /* ******************** integration test ******************** */
 
 dependencies {
-    integrationTestCompileOnly("org.jetbrains:annotations:${property("jetbrains-annotations.version")}")
-    integrationTestImplementation("com.hivemq:hivemq-mqtt-client:${property("hivemq-mqtt-client.version")}")
-    integrationTestImplementation("org.testcontainers:junit-jupiter:${property("testcontainers.version")}")
-    integrationTestImplementation("org.testcontainers:hivemq:${property("testcontainers.version")}")
-    integrationTestImplementation("com.squareup.okhttp3:okhttp:${property("ok-http.version")}")
+    integrationTestCompileOnly(libs.jetbrains.annotations)
+    integrationTestImplementation(libs.hivemq.mqttClient)
+    integrationTestImplementation(libs.testcontainers.junitJupiter)
+    integrationTestImplementation(libs.testcontainers.hivemq)
+    integrationTestImplementation(libs.okhttp)
 
-    integrationTestRuntimeOnly("ch.qos.logback:logback-classic:${property("logback.version")}")
+    integrationTestRuntimeOnly(libs.logback.classic)
 }
 
 /* ******************** checks ******************** */
