@@ -53,6 +53,7 @@ tasks.withType<Test>().configureEach {
 /* ******************** integration test ******************** */
 
 dependencies {
+    integrationTestCompileOnly("org.jetbrains:annotations:${property("jetbrains-annotations.version")}")
     integrationTestImplementation("com.hivemq:hivemq-mqtt-client:${property("hivemq-mqtt-client.version")}")
     integrationTestImplementation("org.testcontainers:junit-jupiter:${property("testcontainers.version")}")
     integrationTestImplementation("org.testcontainers:hivemq:${property("testcontainers.version")}")

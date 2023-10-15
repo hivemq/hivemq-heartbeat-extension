@@ -15,11 +15,11 @@
  */
 package com.hivemq.extensions.heartbeat;
 
-import com.hivemq.extension.sdk.api.annotations.NotNull;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.testcontainers.hivemq.HiveMQContainer;
