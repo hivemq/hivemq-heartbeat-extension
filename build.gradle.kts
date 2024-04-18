@@ -8,11 +8,11 @@ group = "com.hivemq.extensions"
 description = "HiveMQ Heartbeat Extension - Provides a readiness check via HTTP"
 
 hivemqExtension {
-    name.set("HiveMQ Heartbeat Extension")
-    author.set("HiveMQ")
-    priority.set(1000)
-    startPriority.set(1000)
-    sdkVersion.set(libs.versions.hivemq.extensionSdk)
+    name = "HiveMQ Heartbeat Extension"
+    author = "HiveMQ"
+    priority = 1000
+    startPriority = 1000
+    sdkVersion = libs.versions.hivemq.extensionSdk
 
     resources {
         from("LICENSE")
