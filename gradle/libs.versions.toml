@@ -11,7 +11,7 @@ junit-jupiter = "5.10.0"
 logback = "1.4.4"
 mockito = "5.6.0"
 okhttp = "4.11.0"
-testcontainers = "1.19.1"
+testcontainers = "1.19.7"
 
 [libraries]
 commonsLang = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang" }
