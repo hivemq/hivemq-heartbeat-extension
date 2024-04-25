@@ -41,6 +41,7 @@ import java.io.File;
  *
  * @author Anja Helmbrecht-Schaar
  */
+@SuppressWarnings("unused")
 public class HeartbeatMain implements ExtensionMain {
 
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(HeartbeatMain.class);
