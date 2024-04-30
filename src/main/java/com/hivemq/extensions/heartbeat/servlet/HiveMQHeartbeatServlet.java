@@ -15,12 +15,12 @@
  */
 package com.hivemq.extensions.heartbeat.servlet;
 
-import com.hivemq.extension.sdk.api.annotations.NotNull;
 import com.hivemq.extension.sdk.api.services.Services;
 import com.hivemq.extension.sdk.api.services.admin.LifecycleStage;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

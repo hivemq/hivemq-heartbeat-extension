@@ -16,8 +16,6 @@
 package com.hivemq.extensions.heartbeat;
 
 import com.hivemq.extension.sdk.api.ExtensionMain;
-import com.hivemq.extension.sdk.api.annotations.NotNull;
-import com.hivemq.extension.sdk.api.annotations.Nullable;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStartInput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStartOutput;
 import com.hivemq.extension.sdk.api.parameter.ExtensionStopInput;
@@ -25,6 +23,8 @@ import com.hivemq.extension.sdk.api.parameter.ExtensionStopOutput;
 import com.hivemq.extensions.heartbeat.configuration.ExtensionConfiguration;
 import com.hivemq.extensions.heartbeat.service.HTTPService;
 import com.hivemq.extensions.heartbeat.servlet.HiveMQHeartbeatServlet;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,27 +41,36 @@ import java.io.File;
  *
  * @author Anja Helmbrecht-Schaar
  */
+@SuppressWarnings("unused")
 public class HeartbeatMain implements ExtensionMain {
 
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(HeartbeatMain.class);
     private static @Nullable HTTPService httpService;
 
     @Override
-    public final void extensionStart(final @NotNull ExtensionStartInput extensionStartInput, final @NotNull ExtensionStartOutput extensionStartOutput) {
+    public final void extensionStart(
+            final @NotNull ExtensionStartInput extensionStartInput,
+            final @NotNull ExtensionStartOutput extensionStartOutput) {
         try {
-            final @NotNull File extensionHomeFolder = extensionStartInput.getExtensionInformation().getExtensionHomeFolder();
-            final @NotNull ExtensionConfiguration extensionConfiguration = new ExtensionConfiguration(extensionHomeFolder);
+            final @NotNull File extensionHomeFolder =
+                    extensionStartInput.getExtensionInformation().getExtensionHomeFolder();
+            final @NotNull ExtensionConfiguration extensionConfiguration =
+                    new ExtensionConfiguration(extensionHomeFolder);
 
             startRestService(extensionConfiguration);
 
         } catch (Exception e) {
             extensionStartOutput.preventExtensionStartup("Heartbeat Extension cannot be started.");
-            LOG.error("{} extension could not be started. An exception was thrown while starting!", extensionStartInput.getExtensionInformation().getName(), e);
+            LOG.error("{} extension could not be started. An exception was thrown while starting!",
+                    extensionStartInput.getExtensionInformation().getName(),
+                    e);
         }
     }
 
     @Override
-    public final void extensionStop(final @NotNull ExtensionStopInput extensionStopInput, final @NotNull ExtensionStopOutput extensionStopOutput) {
+    public final void extensionStop(
+            final @NotNull ExtensionStopInput extensionStopInput,
+            final @NotNull ExtensionStopOutput extensionStopOutput) {
         if (httpService != null) {
             httpService.stopHTTPServer();
         }

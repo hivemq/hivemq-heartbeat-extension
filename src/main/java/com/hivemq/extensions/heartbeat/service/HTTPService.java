@@ -15,13 +15,13 @@
  */
 package com.hivemq.extensions.heartbeat.service;
 
-import com.hivemq.extension.sdk.api.annotations.NotNull;
-import com.hivemq.extension.sdk.api.annotations.Nullable;
 import com.hivemq.extensions.heartbeat.configuration.entities.Heartbeat;
 import com.hivemq.extensions.heartbeat.servlet.HiveMQHeartbeatServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +50,8 @@ public class HTTPService {
 
         LOG.info("Initializing Heartbeat HTTP service");
         try {
-            final @NotNull ServletContextHandler servletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+            final @NotNull ServletContextHandler servletContextHandler =
+                    new ServletContextHandler(ServletContextHandler.SESSIONS);
             servletContextHandler.setContextPath("/");
 
             final InetSocketAddress address = new InetSocketAddress(heartbeat.getBindAddress(), heartbeat.getPort());
