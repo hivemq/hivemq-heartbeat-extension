@@ -15,6 +15,7 @@
  */
 package com.hivemq.extensions.heartbeat;
 
+import io.github.sgtsilvio.gradle.oci.junit.jupiter.OciImages;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -29,7 +30,6 @@ import org.testcontainers.utility.MountableFile;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.hivemq.extensions.heartbeat.DockerImageNames.HIVEMQ;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -41,7 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class CustomConfigIT {
 
     @Container
-    final @NotNull HiveMQContainer hivemq = new HiveMQContainer(HIVEMQ) //
+    final @NotNull HiveMQContainer hivemq = new HiveMQContainer(OciImages.getImageName("hivemq/hivemq-ce")) //
             .withExtension(MountableFile.forClasspathResource("hivemq-heartbeat-extension"))
             .waitForExtension("HiveMQ Heartbeat Extension")
             .withExposedPorts(9191)
