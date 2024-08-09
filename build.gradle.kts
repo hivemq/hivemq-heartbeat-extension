@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.hivemq.extension)
     alias(libs.plugins.defaults)
+    alias(libs.plugins.oci)
     alias(libs.plugins.license)
 }
 
@@ -21,15 +22,20 @@ hivemqExtension {
 
 dependencies {
     compileOnly(libs.jetbrains.annotations)
-
     implementation(libs.commonsLang)
     implementation(libs.commonsText)
-
     implementation(libs.jaxb.api)
     runtimeOnly(libs.jaxb.impl)
-
     implementation(libs.jetty.server)
     implementation(libs.jetty.servlet)
+}
+
+oci {
+    registries {
+        dockerHub {
+            optionalCredentials()
+        }
+    }
 }
 
 @Suppress("UnstableApiUsage")
@@ -50,8 +56,12 @@ testing {
                 implementation(libs.hivemq.mqttClient)
                 implementation(libs.testcontainers.junitJupiter)
                 implementation(libs.testcontainers.hivemq)
+                implementation(libs.gradleOci.junitJupiter)
                 implementation(libs.okhttp)
                 runtimeOnly(libs.logback.classic)
+            }
+            ociImageDependencies {
+                runtime("hivemq:hivemq-ce:latest") { isChanging = true }
             }
         }
     }
