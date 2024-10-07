@@ -60,8 +60,10 @@ testing {
                 implementation(libs.okhttp)
                 runtimeOnly(libs.logback.classic)
             }
-            ociImageDependencies {
-                runtime("hivemq:hivemq-ce:latest") { isChanging = true }
+            oci.of(this) {
+                imageDependencies {
+                    runtime("hivemq:hivemq-ce:latest") { isChanging = true }
+                }
             }
         }
     }
