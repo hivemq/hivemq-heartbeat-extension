@@ -1,5 +1,5 @@
 [versions]
-commonsLang = "3.14.0"
+commonsLang = "3.17.0"
 commonsText = "1.12.0"
 gradleOci-junitJupiter = "0.6.0"
 hivemq-extensionSdk = "4.2.0"
@@ -10,9 +10,9 @@ jetbrains-annotations = "24.1.0"
 jetty = "11.0.24"
 junit-jupiter = "5.10.0"
 logback = "1.5.12"
-mockito = "5.12.0"
+mockito = "5.14.2"
 okhttp = "4.12.0"
-testcontainers = "1.19.8"
+testcontainers = "1.20.3"
 
 [libraries]
 commonsLang = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLang" }
