@@ -36,6 +36,32 @@ oci {
             optionalCredentials()
         }
     }
+    imageMapping {
+        mapModule("com.hivemq", "hivemq-community-edition") {
+            toImage("hivemq/hivemq-ce")
+        }
+    }
+    imageDefinitions.register("main") {
+        allPlatforms {
+            dependencies {
+                runtime("com.hivemq:hivemq-community-edition:latest") { isChanging = true }
+            }
+            config {
+                ports = setOf("9090")
+            }
+            layers {
+                layer("hivemqExtension") {
+                    contents {
+                        permissions("opt/hivemq/", 0b111_111_000)
+                        permissions("opt/hivemq/extensions/", 0b111_111_000)
+                        into("opt/hivemq/extensions") {
+                            from(zipTree(tasks.hivemqExtensionZip.flatMap { it.archiveFile }))
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Suppress("UnstableApiUsage")
@@ -62,7 +88,7 @@ testing {
             }
             oci.of(this) {
                 imageDependencies {
-                    runtime("hivemq:hivemq-ce:latest") { isChanging = true }
+                    runtime(project).tag("latest")
                 }
             }
         }

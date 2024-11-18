@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Timeout;
 import org.testcontainers.hivemq.HiveMQContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.MountableFile;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,11 +40,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class DefaultConfigIT {
 
     @Container
-    final @NotNull HiveMQContainer hivemq = new HiveMQContainer(OciImages.getImageName("hivemq/hivemq-ce")) //
-            .withExtension(MountableFile.forClasspathResource("hivemq-heartbeat-extension"))
-            .waitForExtension("HiveMQ Heartbeat Extension")
-            .withExposedPorts(9090)
-            .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()));
+    final @NotNull HiveMQContainer hivemq =
+            new HiveMQContainer(OciImages.getImageName("hivemq/extensions/hivemq-heartbeat-extension")
+                    .asCompatibleSubstituteFor("hivemq/hivemq-ce")) //
+                    .withExposedPorts(9090)
+                    .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()));
 
     @Test
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
