@@ -41,14 +41,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class CustomConfigIT {
 
     @Container
-    final @NotNull HiveMQContainer hivemq = new HiveMQContainer(OciImages.getImageName("hivemq/hivemq-ce")) //
-            .withExtension(MountableFile.forClasspathResource("hivemq-heartbeat-extension"))
-            .waitForExtension("HiveMQ Heartbeat Extension")
-            .withExposedPorts(9191)
-            .withFileInExtensionHomeFolder(MountableFile.forClasspathResource("extension-config.xml"),
-                    "hivemq-heartbeat-extension",
-                    "/extension-config.xml")
-            .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()));
+    final @NotNull HiveMQContainer hivemq =
+            new HiveMQContainer(OciImages.getImageName("hivemq/extensions/hivemq-heartbeat-extension")
+                    .asCompatibleSubstituteFor("hivemq/hivemq-ce")) //
+                    .withExposedPorts(9191)
+                    .withCopyToContainer(MountableFile.forClasspathResource("extension-config.xml"),
+                            "/opt/hivemq/extensions/hivemq-heartbeat-extension/extension-config.xml")
+                    .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()));
 
     @Test
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
