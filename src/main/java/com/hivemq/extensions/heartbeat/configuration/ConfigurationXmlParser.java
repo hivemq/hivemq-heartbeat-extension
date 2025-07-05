@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
 
@@ -35,13 +34,13 @@ public class ConfigurationXmlParser {
 
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(ConfigurationXmlParser.class);
 
-    //jaxb context is thread safe
+    // JAXB context is thread safe
     private final @NotNull JAXBContext jaxb;
 
     ConfigurationXmlParser() {
         try {
             jaxb = JAXBContext.newInstance(Heartbeat.class);
-        } catch (JAXBException e) {
+        } catch (final JAXBException e) {
             LOG.error("Error in the Heartbeat Extension. Could not initialize XML parser", e);
             throw new RuntimeException("Could not initialize XML parser.", e);
         }
@@ -49,12 +48,11 @@ public class ConfigurationXmlParser {
 
     final @NotNull Heartbeat unmarshalExtensionConfig(final @NotNull File file) throws IOException {
         try {
-            final Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+            final var unmarshaller = jaxb.createUnmarshaller();
             return (Heartbeat) unmarshaller.unmarshal(file);
-        } catch (JAXBException e) {
+        } catch (final JAXBException e) {
             LOG.error("Error in the Heartbeat Extension. Could not unmarshal XML configuration", e);
             throw new IOException("Could not unmarshal XML configuration.", e);
         }
     }
-
 }

@@ -33,19 +33,18 @@ import org.slf4j.LoggerFactory;
 public class HiveMQHeartbeatServlet extends HttpServlet {
 
     private static final long serialVersionUID = 0L;
-    private static final @NotNull Logger LOG = LoggerFactory.getLogger(HiveMQHeartbeatServlet.class);
     private static final @NotNull String HTTP_HEARTBEAT_METER = "http-heartbeat-meter";
+
+    private static final @NotNull Logger LOG = LoggerFactory.getLogger(HiveMQHeartbeatServlet.class);
 
     @Override
     protected void doGet(final @NotNull HttpServletRequest req, final @NotNull HttpServletResponse resp) {
-
-        final int status = (Services.adminService().getCurrentStage() == LifecycleStage.STARTED_SUCCESSFULLY) ?
+        final var status = (Services.adminService().getCurrentStage() == LifecycleStage.STARTED_SUCCESSFULLY) ?
                 HttpServletResponse.SC_OK :
                 HttpServletResponse.SC_SERVICE_UNAVAILABLE;
-
         resp.setStatus(status);
 
-        //create and mark metric for heartbeat
+        // create and mark metric for heartbeat
         Services.metricRegistry().meter(HTTP_HEARTBEAT_METER).mark();
 
         if (LOG.isDebugEnabled()) {
@@ -57,6 +56,5 @@ public class HiveMQHeartbeatServlet extends HttpServlet {
                     req.getRequestURI(),
                     status);
         }
-
     }
 }

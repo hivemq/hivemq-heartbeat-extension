@@ -28,8 +28,6 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-
 /**
  * Main class for HiveMQ Heartbeat extension
  * <p>
@@ -52,14 +50,10 @@ public class HeartbeatMain implements ExtensionMain {
             final @NotNull ExtensionStartInput extensionStartInput,
             final @NotNull ExtensionStartOutput extensionStartOutput) {
         try {
-            final @NotNull File extensionHomeFolder =
-                    extensionStartInput.getExtensionInformation().getExtensionHomeFolder();
-            final @NotNull ExtensionConfiguration extensionConfiguration =
-                    new ExtensionConfiguration(extensionHomeFolder);
-
+            final var extensionHome = extensionStartInput.getExtensionInformation().getExtensionHomeFolder();
+            final var extensionConfiguration = new ExtensionConfiguration(extensionHome);
             startRestService(extensionConfiguration);
-
-        } catch (Exception e) {
+        } catch (final Exception e) {
             extensionStartOutput.preventExtensionStartup("Heartbeat Extension cannot be started.");
             LOG.error("{} extension could not be started. An exception was thrown while starting!",
                     extensionStartInput.getExtensionInformation().getName(),
@@ -80,5 +74,4 @@ public class HeartbeatMain implements ExtensionMain {
         httpService = new HTTPService(extensionConfiguration.getHeartbeatConfig(), new HiveMQHeartbeatServlet());
         httpService.startHttpServer();
     }
-
 }

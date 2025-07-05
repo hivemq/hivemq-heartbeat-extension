@@ -31,10 +31,11 @@ public class ExtensionConfiguration {
 
     private static final @NotNull String EXTENSION_CONFIG_FILE_NAME = "extension-config.xml";
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(ExtensionConfiguration.class);
+
     private final @NotNull ConfigurationXmlParser configurationXmlParser = new ConfigurationXmlParser();
     private final @NotNull File extensionHomeFolder;
-    private @Nullable Heartbeat heartbeat;
 
+    private @Nullable Heartbeat heartbeat;
 
     public ExtensionConfiguration(final @NotNull File extensionHomeFolder) {
         this.extensionHomeFolder = extensionHomeFolder;
@@ -52,11 +53,10 @@ public class ExtensionConfiguration {
      * @return the new heartbeat based on the file contents or default if the heartbeat configuration is invalid
      */
     private @NotNull Heartbeat read(final @NotNull File configFile) {
-
-        final @NotNull Heartbeat defaultHeartbeat = new Heartbeat();
+        final var defaultHeartbeat = new Heartbeat();
         if (configFile.exists() && configFile.canRead() && configFile.length() > 0) {
             try {
-                final @NotNull Heartbeat newHeartbeat = configurationXmlParser.unmarshalExtensionConfig(configFile);
+                final var newHeartbeat = configurationXmlParser.unmarshalExtensionConfig(configFile);
                 return validate(newHeartbeat, defaultHeartbeat);
             } catch (final IOException e) {
                 LOG.warn("Could not read Heartbeat extension configuration file, reason: {}, using defaults {}.",
@@ -73,12 +73,12 @@ public class ExtensionConfiguration {
     }
 
     private @NotNull Heartbeat validate(
-            final @NotNull Heartbeat newHeartbeat, final @NotNull Heartbeat defaultHeartbeat) {
+            final @NotNull Heartbeat newHeartbeat,
+            final @NotNull Heartbeat defaultHeartbeat) {
         if (newHeartbeat.getPort() < 1) {
             LOG.warn("Port must be greater than 0, using default port " + defaultHeartbeat.getPort());
             newHeartbeat.setPort(defaultHeartbeat.getPort());
         }
         return newHeartbeat;
     }
-
 }

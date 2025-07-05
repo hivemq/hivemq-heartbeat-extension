@@ -53,7 +53,7 @@ public class Heartbeat {
         return port;
     }
 
-    public void setPort(int port) {
+    public void setPort(final int port) {
         this.port = port;
     }
 

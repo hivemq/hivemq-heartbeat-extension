@@ -16,10 +16,6 @@
 package com.hivemq.extensions.heartbeat;
 
 import io.github.sgtsilvio.gradle.oci.junit.jupiter.OciImages;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -28,10 +24,13 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.MountableFile;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Yannick Weber
@@ -52,18 +51,15 @@ class CustomConfigIT {
     @Test
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
     void customConfigPresent_customConfigUsed() throws Exception {
-        final OkHttpClient client = new OkHttpClient();
+        final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
 
-        final Request request = new Request.Builder().url("http://" +
-                hivemq.getHost() +
-                ":" +
-                hivemq.getMappedPort(9191) +
-                "/custom-endpoint").build();
+        //noinspection HttpUrlsUsage
+        final var request = HttpRequest.newBuilder()
+                .uri(URI.create("http://" + hivemq.getHost() + ":" + hivemq.getMappedPort(9191) + "/custom-endpoint"))
+                .build();
 
-        try (final Response response = client.newCall(request).execute()) {
-            final ResponseBody body = response.body();
-            assertEquals(200, response.code());
-            assertNotNull(body);
-        }
+        final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertThat(response.statusCode()).isEqualTo(200);
+        assertThat(response.body()).isNotNull();
     }
 }

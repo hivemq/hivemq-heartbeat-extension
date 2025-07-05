@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class ExtensionConfigurationTest {
 
@@ -33,16 +33,16 @@ class ExtensionConfigurationTest {
 
     @Test
     void defaultConfiguration_ok() {
-        final Heartbeat config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
-        final Heartbeat defaultConfig = new Heartbeat();
-        assertEquals(config.getBindAddress(), defaultConfig.getBindAddress());
-        assertEquals(config.getPath(), defaultConfig.getPath());
-        assertEquals(config.getPort(), defaultConfig.getPort());
+        final var config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
+        final var defaultConfig = new Heartbeat();
+        assertThat(defaultConfig.getBindAddress()).isEqualTo(config.getBindAddress());
+        assertThat(defaultConfig.getPath()).isEqualTo(config.getPath());
+        assertThat(defaultConfig.getPort()).isEqualTo(config.getPort());
     }
 
     @Test
     void loadConfiguration_ok() throws IOException {
-        final String extensionContent = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+        final var extensionContent = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<heartbeat-extension-configuration>\n" +
                 "        <port>4711</port>\n" +
                 "        <bind-address>1.2.3.4</bind-address>\n" +
@@ -50,24 +50,21 @@ class ExtensionConfigurationTest {
                 "</heartbeat-extension-configuration>\n";
         Files.writeString(tempDir.resolve("extension-config.xml"), extensionContent);
 
-        final Heartbeat config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
-
-        assertEquals(config.getBindAddress(), "1.2.3.4");
-        assertEquals(config.getPath(), "/examplePath");
-        assertEquals(config.getPort(), 4711);
+        final var config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
+        assertThat(config.getBindAddress()).isEqualTo("1.2.3.4");
+        assertThat(config.getPath()).isEqualTo("/examplePath");
+        assertThat(config.getPort()).isEqualTo(4711);
     }
-
 
     @Test
     void portConfiguration_Nok() throws IOException {
-        final String portConfig = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+        final var portConfig = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<heartbeat-extension-configuration>\n" +
                 "        <port>-4711</port>\n" +
                 "</heartbeat-extension-configuration>\n";
         Files.writeString(tempDir.resolve("extension-config.xml"), portConfig);
 
-        final Heartbeat config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
-        assertEquals(config.getPort(), 9090);
+        final var config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
+        assertThat(config.getPort()).isEqualTo(9090);
     }
-
 }
