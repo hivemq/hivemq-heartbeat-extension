@@ -1,6 +1,6 @@
 [versions]
 assertj = "3.27.3"
-commonsLang = "3.17.0"
+commonsLang = "3.18.0"
 commonsText = "1.13.1"
 gradleOci-junitJupiter = "0.7.0"
 hivemq-extensionSdk = "4.2.0"
