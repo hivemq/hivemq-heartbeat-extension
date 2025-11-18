@@ -86,6 +86,7 @@ testing {
                 compileOnly(libs.jetbrains.annotations)
                 implementation(libs.assertj)
                 implementation(libs.hivemq.mqttClient)
+                implementation(libs.testcontainers)
                 implementation(libs.testcontainers.junitJupiter)
                 implementation(libs.testcontainers.hivemq)
                 implementation(libs.gradleOci.junitJupiter)

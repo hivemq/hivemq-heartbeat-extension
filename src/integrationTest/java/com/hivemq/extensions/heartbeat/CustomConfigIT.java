@@ -46,7 +46,8 @@ class CustomConfigIT {
                     .withExposedPorts(9191)
                     .withCopyToContainer(MountableFile.forClasspathResource("extension-config.xml"),
                             "/opt/hivemq/extensions/hivemq-heartbeat-extension/extension-config.xml")
-                    .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()));
+                    .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()))
+                    .withEnv("HIVEMQ_DISABLE_STATISTICS", "true");
 
     @Test
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
