@@ -43,7 +43,8 @@ class DefaultConfigIT {
             new HiveMQContainer(OciImages.getImageName("hivemq/extensions/hivemq-heartbeat-extension")
                     .asCompatibleSubstituteFor("hivemq/hivemq-ce")) //
                     .withExposedPorts(9090)
-                    .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()));
+                    .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()))
+                    .withEnv("HIVEMQ_DISABLE_STATISTICS", "true");
 
     @Test
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
