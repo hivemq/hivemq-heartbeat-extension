@@ -42,12 +42,14 @@ class ExtensionConfigurationTest {
 
     @Test
     void loadConfiguration_ok() throws IOException {
-        final var extensionContent = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-                "<heartbeat-extension-configuration>\n" +
-                "        <port>4711</port>\n" +
-                "        <bind-address>1.2.3.4</bind-address>\n" +
-                "        <path>/examplePath</path>\n" +
-                "</heartbeat-extension-configuration>\n";
+        final var extensionContent = """
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <heartbeat-extension-configuration>
+                        <port>4711</port>
+                        <bind-address>1.2.3.4</bind-address>
+                        <path>/examplePath</path>
+                </heartbeat-extension-configuration>
+                """;
         Files.writeString(tempDir.resolve("extension-config.xml"), extensionContent);
 
         final var config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
@@ -58,10 +60,12 @@ class ExtensionConfigurationTest {
 
     @Test
     void portConfiguration_Nok() throws IOException {
-        final var portConfig = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
-                "<heartbeat-extension-configuration>\n" +
-                "        <port>-4711</port>\n" +
-                "</heartbeat-extension-configuration>\n";
+        final var portConfig = """
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <heartbeat-extension-configuration>
+                        <port>-4711</port>
+                </heartbeat-extension-configuration>
+                """;
         Files.writeString(tempDir.resolve("extension-config.xml"), portConfig);
 
         final var config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();

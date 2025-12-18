@@ -52,15 +52,14 @@ class FallbackToDefaultsIT {
     @Test
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
     void brokenConfigFilePresent_defaultsUsed() throws Exception {
-        final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
+        try (final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()) {
+            //noinspection HttpUrlsUsage
+            final var uri = "http://%s:%d/heartbeat".formatted(hivemq.getHost(), hivemq.getMappedPort(9090));
+            final var request = HttpRequest.newBuilder().uri(URI.create(uri)).GET().build();
 
-        //noinspection HttpUrlsUsage
-        final var request = HttpRequest.newBuilder()
-                .uri(URI.create("http://" + hivemq.getHost() + ":" + hivemq.getMappedPort(9090) + "/heartbeat"))
-                .build();
-
-        final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotNull();
+            final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertThat(response.statusCode()).isEqualTo(200);
+            assertThat(response.body()).isNotNull();
+        }
     }
 }
