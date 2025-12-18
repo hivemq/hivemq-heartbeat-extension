@@ -52,15 +52,14 @@ class CustomConfigIT {
     @Test
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
     void customConfigPresent_customConfigUsed() throws Exception {
-        final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build();
+        try (final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()) {
+            //noinspection HttpUrlsUsage
+            final var uri = "http://%s:%d/custom-endpoint".formatted(hivemq.getHost(), hivemq.getMappedPort(9191));
+            final var request = HttpRequest.newBuilder().uri(URI.create(uri)).GET().build();
 
-        //noinspection HttpUrlsUsage
-        final var request = HttpRequest.newBuilder()
-                .uri(URI.create("http://" + hivemq.getHost() + ":" + hivemq.getMappedPort(9191) + "/custom-endpoint"))
-                .build();
-
-        final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotNull();
+            final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertThat(response.statusCode()).isEqualTo(200);
+            assertThat(response.body()).isNotNull();
+        }
     }
 }
