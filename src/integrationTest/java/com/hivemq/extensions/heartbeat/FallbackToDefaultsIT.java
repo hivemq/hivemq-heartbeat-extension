@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author Yannick Weber
+ * @author David Sondermann
  * @since 1.0.4
  */
 @Testcontainers
