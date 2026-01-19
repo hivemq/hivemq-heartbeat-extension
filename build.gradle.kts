@@ -38,8 +38,6 @@ dependencies {
     implementation(libs.commonsText)
     implementation(libs.jaxb.api)
     runtimeOnly(libs.jaxb.impl)
-    implementation(libs.jetty.server)
-    implementation(libs.jetty.servlet)
 }
 
 oci {
