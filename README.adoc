@@ -22,11 +22,11 @@ It provides a readiness check via HTTP, which means a service is able to detect 
 
 * Download the extension from the {hivemq-extension-download}[HiveMQ Marketplace^].
 * Copy the content of the zip file to the `extensions` folder of your HiveMQ nodes.
-* Modify the `extension-config.xml` file for your needs.
+* Modify the `conf/config.xml` file for your needs.
 
 == Configuration
 
-The Heartbeat extension uses its own configuration file 'extension-config.xml' which must be placed in the extensions folder of HiveMQ.
+The Heartbeat extension uses its own configuration file `config.xml`.
 
 |===
 | Config name | Required | Description

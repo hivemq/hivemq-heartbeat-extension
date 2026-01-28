@@ -33,8 +33,7 @@ import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author Yannick Weber
- * @since 1.0.4
+ * Integration test for custom configuration.
  */
 @Testcontainers
 class CustomConfigIT {
@@ -44,14 +43,14 @@ class CustomConfigIT {
             new HiveMQContainer(OciImages.getImageName("hivemq/extensions/hivemq-heartbeat-extension")
                     .asCompatibleSubstituteFor("hivemq/hivemq-ce")) //
                     .withExposedPorts(9191)
-                    .withCopyToContainer(MountableFile.forClasspathResource("extension-config.xml"),
-                            "/opt/hivemq/extensions/hivemq-heartbeat-extension/extension-config.xml")
+                    .withCopyToContainer(MountableFile.forClasspathResource("config.xml"),
+                            "/opt/hivemq/extensions/hivemq-heartbeat-extension/conf/config.xml")
                     .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()))
                     .withEnv("HIVEMQ_DISABLE_STATISTICS", "true");
 
     @Test
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
-    void customConfigPresent_customConfigUsed() throws Exception {
+    void customConfigInConfFolder_customConfigUsed() throws Exception {
         try (final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()) {
             //noinspection HttpUrlsUsage
             final var uri = "http://%s:%d/custom-endpoint".formatted(hivemq.getHost(), hivemq.getMappedPort(9191));
