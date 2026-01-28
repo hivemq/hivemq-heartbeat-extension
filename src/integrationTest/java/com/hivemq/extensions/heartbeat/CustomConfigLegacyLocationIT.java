@@ -33,28 +33,28 @@ import java.util.concurrent.TimeUnit;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author Yannick Weber
- * @since 1.0.4
+ * Integration test for custom configuration placed in the extension root folder (legacy location).
+ * This test verifies backward compatibility with the legacy configuration file location.
  */
 @Testcontainers
-class FallbackToDefaultsIT {
+class CustomConfigLegacyLocationIT {
 
     @Container
     final @NotNull HiveMQContainer hivemq =
             new HiveMQContainer(OciImages.getImageName("hivemq/extensions/hivemq-heartbeat-extension")
                     .asCompatibleSubstituteFor("hivemq/hivemq-ce")) //
-                    .withExposedPorts(9090)
-                    .withCopyToContainer(MountableFile.forClasspathResource("broken-config.xml"),
-                            "/opt/hivemq/extensions/hivemq-heartbeat-extension/conf/config.xml")
+                    .withExposedPorts(9191)
+                    .withCopyToContainer(MountableFile.forClasspathResource("config.xml"),
+                            "/opt/hivemq/extensions/hivemq-heartbeat-extension/extension-config.xml")
                     .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()))
                     .withEnv("HIVEMQ_DISABLE_STATISTICS", "true");
 
     @Test
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
-    void brokenConfigFilePresent_defaultsUsed() throws Exception {
+    void customConfigLocatedAtLegacyPath_stillWorks() throws Exception {
         try (final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()) {
             //noinspection HttpUrlsUsage
-            final var uri = "http://%s:%d/heartbeat".formatted(hivemq.getHost(), hivemq.getMappedPort(9090));
+            final var uri = "http://%s:%d/custom-endpoint".formatted(hivemq.getHost(), hivemq.getMappedPort(9191));
             final var request = HttpRequest.newBuilder().uri(URI.create(uri)).GET().build();
 
             final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
