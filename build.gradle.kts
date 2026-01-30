@@ -85,6 +85,7 @@ testing {
                 compileOnly(libs.jetbrains.annotations)
                 implementation(libs.assertj)
                 implementation(libs.mockito)
+                implementation(libs.logback.classic)
             }
         }
         "integrationTest"(JvmTestSuite::class) {
