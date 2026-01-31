@@ -24,7 +24,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * @author Anja Helmbrecht-Schaar
+ * JAXB entity representing the heartbeat extension configuration.
+ * <p>
+ * This class defines the configuration parameters for the heartbeat HTTP endpoint:
+ * <ul>
+ *     <li><b>port</b>: The port number where the HTTP server listens (default: {@value DEFAULT_PORT})</li>
+ *     <li><b>bind-address</b>: The network address to bind to (default: {@value DEFAULT_BIND_ADDRESS})</li>
+ *     <li><b>path</b>: The URL path for the heartbeat endpoint (default: {@value DEFAULT_SERVLET_PATH})</li>
+ * </ul>
+ * <p>
+ * This class is used by JAXB to deserialize XML configuration files. The {@code @XmlElement}
+ * annotations map XML elements to Java fields, with default values provided for optional elements.
+ *
+ * @author David Sondermann
+ * @since 1.0.0
  */
 @SuppressWarnings("FieldMayBeFinal")
 @XmlRootElement(name = "heartbeat-extension-configuration")
@@ -46,21 +59,46 @@ public class Heartbeat {
     @XmlElement(name = "path", defaultValue = DEFAULT_SERVLET_PATH)
     private @NotNull String path = DEFAULT_SERVLET_PATH;
 
+    /**
+     * Default constructor for JAXB deserialization.
+     * <p>
+     * Initializes all fields with their default values.
+     */
     public Heartbeat() {
     }
 
+    /**
+     * Returns the port number where the HTTP server listens.
+     *
+     * @return the port number
+     */
     public int getPort() {
         return port;
     }
 
+    /**
+     * Sets the port number where the HTTP server should listen.
+     *
+     * @param port the port number (must be greater than 0)
+     */
     public void setPort(final int port) {
         this.port = port;
     }
 
+    /**
+     * Returns the network address to which the HTTP server is bound.
+     *
+     * @return the bind address
+     */
     public @NotNull String getBindAddress() {
         return bindAddress;
     }
 
+    /**
+     * Returns the URL path for the heartbeat endpoint.
+     *
+     * @return the path (e.g., "/heartbeat")
+     */
     public @NotNull String getPath() {
         return path;
     }
