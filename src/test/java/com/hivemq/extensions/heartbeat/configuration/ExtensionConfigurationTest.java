@@ -45,6 +45,26 @@ class ExtensionConfigurationTest {
         final var extensionContent = """
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <heartbeat-extension-configuration>
+                        <port>8080</port>
+                        <bind-address>5.6.7.8</bind-address>
+                        <path>/newPath</path>
+                </heartbeat-extension-configuration>
+                """;
+        final var confDir = tempDir.resolve("conf");
+        Files.createDirectories(confDir);
+        Files.writeString(confDir.resolve("config.xml"), extensionContent);
+
+        final var config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
+        assertThat(config.getBindAddress()).isEqualTo("5.6.7.8");
+        assertThat(config.getPath()).isEqualTo("/newPath");
+        assertThat(config.getPort()).isEqualTo(8080);
+    }
+
+    @Test
+    void loadConfiguration_fromLegacyLocation_ok() throws IOException {
+        final var extensionContent = """
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <heartbeat-extension-configuration>
                         <port>4711</port>
                         <bind-address>1.2.3.4</bind-address>
                         <path>/examplePath</path>
@@ -56,6 +76,37 @@ class ExtensionConfigurationTest {
         assertThat(config.getBindAddress()).isEqualTo("1.2.3.4");
         assertThat(config.getPath()).isEqualTo("/examplePath");
         assertThat(config.getPort()).isEqualTo(4711);
+    }
+
+    @Test
+    void loadConfiguration_legacyTakesPrecedence_ok() throws IOException {
+        final var legacyContent = """
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <heartbeat-extension-configuration>
+                        <port>1111</port>
+                        <bind-address>1.1.1.1</bind-address>
+                        <path>/legacy</path>
+                </heartbeat-extension-configuration>
+                """;
+        final var newContent = """
+                <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+                <heartbeat-extension-configuration>
+                        <port>2222</port>
+                        <bind-address>2.2.2.2</bind-address>
+                        <path>/new</path>
+                </heartbeat-extension-configuration>
+                """;
+        // write to both locations
+        Files.writeString(tempDir.resolve("extension-config.xml"), legacyContent);
+        final var confDir = tempDir.resolve("conf");
+        Files.createDirectories(confDir);
+        Files.writeString(confDir.resolve("config.xml"), newContent);
+
+        // legacy location should take precedence
+        final var config = new ExtensionConfiguration(tempDir.toFile()).getHeartbeatConfig();
+        assertThat(config.getBindAddress()).isEqualTo("1.1.1.1");
+        assertThat(config.getPath()).isEqualTo("/legacy");
+        assertThat(config.getPort()).isEqualTo(1111);
     }
 
     @Test

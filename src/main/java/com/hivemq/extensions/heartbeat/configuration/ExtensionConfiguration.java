@@ -42,11 +42,13 @@ import java.io.IOException;
  */
 public class ExtensionConfiguration {
 
-    private static final @NotNull String EXTENSION_CONFIG_FILE_NAME = "extension-config.xml";
+    private static final @NotNull String EXTENSION_NAME = "HiveMQ Heartbeat Extension";
+    private static final @NotNull String EXTENSION_CONFIG_LOCATION = "conf/config.xml";
+    private static final @NotNull String EXTENSION_CONFIG_LEGACY_LOCATION = "extension-config.xml";
     private static final @NotNull Logger LOG = LoggerFactory.getLogger(ExtensionConfiguration.class);
 
     private final @NotNull ConfigurationXmlParser configurationXmlParser = new ConfigurationXmlParser();
-    private final @NotNull File extensionHomeFolder;
+    private final @NotNull ConfigResolver configResolver;
 
     private @Nullable Heartbeat heartbeat;
 
@@ -56,7 +58,10 @@ public class ExtensionConfiguration {
      * @param extensionHomeFolder the extension home folder where the configuration file is located
      */
     public ExtensionConfiguration(final @NotNull File extensionHomeFolder) {
-        this.extensionHomeFolder = extensionHomeFolder;
+        this.configResolver = new ConfigResolver(extensionHomeFolder.toPath(),
+                EXTENSION_NAME,
+                EXTENSION_CONFIG_LOCATION,
+                EXTENSION_CONFIG_LEGACY_LOCATION);
     }
 
     /**
@@ -69,7 +74,7 @@ public class ExtensionConfiguration {
      */
     public @NotNull Heartbeat getHeartbeatConfig() {
         if (heartbeat == null) {
-            heartbeat = read(new File(extensionHomeFolder, EXTENSION_CONFIG_FILE_NAME));
+            heartbeat = read(configResolver.get().toFile());
         }
         return heartbeat;
     }
