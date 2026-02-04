@@ -45,7 +45,7 @@ class FallbackToDefaultsIT {
                     .asCompatibleSubstituteFor("hivemq/hivemq-ce")) //
                     .withExposedPorts(9090)
                     .withCopyToContainer(MountableFile.forClasspathResource("broken-config.xml"),
-                            "/opt/hivemq/extensions/hivemq-heartbeat-extension/extension-config.xml")
+                            "/opt/hivemq/extensions/hivemq-heartbeat-extension/conf/config.xml")
                     .withLogConsumer(outputFrame -> System.out.print("HiveMQ: " + outputFrame.getUtf8String()))
                     .withEnv("HIVEMQ_DISABLE_STATISTICS", "true");
 
