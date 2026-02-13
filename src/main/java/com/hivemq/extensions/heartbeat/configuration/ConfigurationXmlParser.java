@@ -17,12 +17,12 @@ package com.hivemq.extensions.heartbeat.configuration;
 
 import com.hivemq.extension.sdk.api.annotations.ThreadSafe;
 import com.hivemq.extensions.heartbeat.configuration.entities.Heartbeat;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 
