@@ -29,14 +29,13 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Manages the HTTP server that provides the heartbeat endpoint for load balancer health checks.
  * <p>
- * This service creates and manages a lightweight HTTP server using Java's built-in {@link HttpServer}.
- * The server listens on a configured address and port, and delegates all requests to the provided
- * {@link HiveMQHeartbeatHandler}.
+ * This service creates and manages a lightweight HTTP server using Java's built-in {@link HttpServer}. The server
+ * listens on a configured address and port, and delegates all requests to the provided {@link HiveMQHeartbeatHandler}.
  * <p>
  * The service ensures proper lifecycle management, allowing graceful startup and shutdown of the HTTP server.
  *
  * @author David Sondermann
- * @since 1.0.11
+ * @since  1.0.11
  */
 public class HTTPService {
 
@@ -65,9 +64,9 @@ public class HTTPService {
      * <p>
      * The server is configured to:
      * <ul>
-     *     <li>Listen on the bind address and port specified in the heartbeat configuration</li>
-     *     <li>Handle requests at the configured path using the heartbeat handler</li>
-     *     <li>Use the default executor (JDK-managed thread pool)</li>
+     * <li>Listen on the bind address and port specified in the heartbeat configuration</li>
+     * <li>Handle requests at the configured path using the heartbeat handler</li>
+     * <li>Use the default executor (JDK-managed thread pool)</li>
      * </ul>
      *
      * @throws RuntimeException if the server cannot be started due to an I/O error
@@ -96,9 +95,8 @@ public class HTTPService {
     /**
      * Gracefully stops the HTTP server.
      * <p>
-     * The server is stopped with a delay of 1 seconds, meaning it will stop immediately
-     * but any in-progress requests will be allowed to complete.
-     * If the server is already stopped or was never started, this method does nothing.
+     * The server is stopped with a delay of 1 seconds, meaning it will stop immediately but any in-progress requests
+     * will be allowed to complete. If the server is already stopped or was never started, this method does nothing.
      */
     public final void stopHTTPServer() {
         final var server = serverRef.getAndSet(null);

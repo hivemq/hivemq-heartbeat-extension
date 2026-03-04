@@ -28,16 +28,16 @@ import org.jetbrains.annotations.NotNull;
  * <p>
  * This class defines the configuration parameters for the heartbeat HTTP endpoint:
  * <ul>
- *     <li><b>port</b>: The port number where the HTTP server listens (default: {@value DEFAULT_PORT})</li>
- *     <li><b>bind-address</b>: The network address to bind to (default: {@value DEFAULT_BIND_ADDRESS})</li>
- *     <li><b>path</b>: The URL path for the heartbeat endpoint (default: {@value DEFAULT_SERVLET_PATH})</li>
+ * <li><b>port</b>: The port number where the HTTP server listens (default: {@value DEFAULT_PORT})</li>
+ * <li><b>bind-address</b>: The network address to bind to (default: {@value DEFAULT_BIND_ADDRESS})</li>
+ * <li><b>path</b>: The URL path for the heartbeat endpoint (default: {@value DEFAULT_SERVLET_PATH})</li>
  * </ul>
  * <p>
- * This class is used by JAXB to deserialize XML configuration files. The {@code @XmlElement}
- * annotations map XML elements to Java fields, with default values provided for optional elements.
+ * This class is used by JAXB to deserialize XML configuration files. The {@code @XmlElement} annotations map XML
+ * elements to Java fields, with default values provided for optional elements.
  *
  * @author David Sondermann
- * @since 1.0.0
+ * @since  1.0.0
  */
 @SuppressWarnings("FieldMayBeFinal")
 @XmlRootElement(name = "heartbeat-extension-configuration")

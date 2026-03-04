@@ -30,16 +30,16 @@ import java.io.IOException;
  * <p>
  * This class is responsible for:
  * <ul>
- *     <li>Loading configuration from the extension-config.xml file in the extension home folder</li>
- *     <li>Validating configuration values and falling back to defaults when necessary</li>
- *     <li>Providing access to the heartbeat configuration throughout the extension lifecycle</li>
+ * <li>Loading configuration from the extension-config.xml file in the extension home folder</li>
+ * <li>Validating configuration values and falling back to defaults when necessary</li>
+ * <li>Providing access to the heartbeat configuration throughout the extension lifecycle</li>
  * </ul>
  * <p>
- * If the configuration file is missing, unreadable, or contains invalid values, the extension
- * will use sensible defaults to ensure the heartbeat endpoint remains operational.
+ * If the configuration file is missing, unreadable, or contains invalid values, the extension will use sensible
+ * defaults to ensure the heartbeat endpoint remains operational.
  *
  * @author David Sondermann
- * @since 1.0.0
+ * @since  1.0.0
  */
 public class ExtensionConfiguration {
 
@@ -68,8 +68,8 @@ public class ExtensionConfiguration {
     /**
      * Returns the heartbeat configuration, loading it from the configuration file if needed.
      * <p>
-     * This method uses lazy loading - the configuration is only read when first requested.
-     * Subsequent calls return the cached configuration object.
+     * This method uses lazy loading - the configuration is only read when first requested. Subsequent calls return the
+     * cached configuration object.
      *
      * @return the heartbeat configuration with validated settings
      */
@@ -83,11 +83,11 @@ public class ExtensionConfiguration {
     /**
      * Reads and validates the heartbeat configuration from the specified file.
      * <p>
-     * If the file does not exist, cannot be read, or contains invalid XML, this method
-     * returns a default configuration and logs a warning.
+     * If the file does not exist, cannot be read, or contains invalid XML, this method returns a default configuration
+     * and logs a warning.
      *
-     * @param configFile the configuration file to read
-     * @return the validated heartbeat configuration or defaults if the configuration is invalid
+     * @param  configFile the configuration file to read
+     * @return            the validated heartbeat configuration or defaults if the configuration is invalid
      */
     private @NotNull Heartbeat read(final @NotNull File configFile) {
         final var defaultHeartbeat = new Heartbeat();
@@ -114,12 +114,12 @@ public class ExtensionConfiguration {
      * <p>
      * Currently validates:
      * <ul>
-     *     <li>Port number must be greater than 0</li>
+     * <li>Port number must be greater than 0</li>
      * </ul>
      *
-     * @param newHeartbeat     the heartbeat configuration to validate
-     * @param defaultHeartbeat the default configuration to use for invalid values
-     * @return the validated heartbeat configuration with corrected values
+     * @param  newHeartbeat     the heartbeat configuration to validate
+     * @param  defaultHeartbeat the default configuration to use for invalid values
+     * @return                  the validated heartbeat configuration with corrected values
      */
     private @NotNull Heartbeat validate(
             final @NotNull Heartbeat newHeartbeat,

@@ -32,21 +32,20 @@ import org.slf4j.LoggerFactory;
 /**
  * Main entry point for the HiveMQ Heartbeat Extension.
  * <p>
- * This extension provides a lightweight HTTP endpoint for load balancer health checks.
- * During extension startup, it:
+ * This extension provides a lightweight HTTP endpoint for load balancer health checks. During extension startup, it:
  * <ol>
- *     <li>Loads configuration from the extension home folder</li>
- *     <li>Starts an HTTP server on the configured port and bind address</li>
- *     <li>Registers a heartbeat handler at the configured path</li>
+ * <li>Loads configuration from the extension home folder</li>
+ * <li>Starts an HTTP server on the configured port and bind address</li>
+ * <li>Registers a heartbeat handler at the configured path</li>
  * </ol>
  * <p>
  * During extension shutdown, the HTTP server is gracefully stopped.
  * <p>
- * The heartbeat endpoint returns HTTP 200 when HiveMQ is fully started and ready to accept connections,
- * or HTTP 503 when HiveMQ is still starting up or shutting down.
+ * The heartbeat endpoint returns HTTP 200 when HiveMQ is fully started and ready to accept connections, or HTTP 503
+ * when HiveMQ is still starting up or shutting down.
  *
  * @author David Sondermann
- * @since 1.0.0
+ * @since  1.0.0
  */
 @SuppressWarnings("unused")
 public class HeartbeatMain implements ExtensionMain {
@@ -57,8 +56,8 @@ public class HeartbeatMain implements ExtensionMain {
     /**
      * Called when the extension is started by HiveMQ.
      * <p>
-     * This method loads the extension configuration and starts the HTTP service.
-     * If any error occurs during startup, the extension start is prevented and an error is logged.
+     * This method loads the extension configuration and starts the HTTP service. If any error occurs during startup,
+     * the extension start is prevented and an error is logged.
      *
      * @param extensionStartInput  provides information about the extension and its environment
      * @param extensionStartOutput allows preventing extension startup in case of errors

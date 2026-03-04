@@ -30,15 +30,14 @@ import java.io.IOException;
 /**
  * XML parser for heartbeat extension configuration files.
  * <p>
- * This parser uses JAXB (Java Architecture for XML Binding) to deserialize XML configuration
- * files into {@link Heartbeat} objects. The parser is thread-safe as the underlying JAXB context
- * is thread-safe.
+ * This parser uses JAXB (Java Architecture for XML Binding) to deserialize XML configuration files into
+ * {@link Heartbeat} objects. The parser is thread-safe as the underlying JAXB context is thread-safe.
  * <p>
- * The parser handles XML unmarshalling errors gracefully by wrapping JAXB exceptions in
- * {@link IOException} for easier error handling by callers.
+ * The parser handles XML unmarshalling errors gracefully by wrapping JAXB exceptions in {@link IOException} for easier
+ * error handling by callers.
  *
  * @author David Sondermann
- * @since 1.0.0
+ * @since  1.0.0
  */
 @ThreadSafe
 public class ConfigurationXmlParser {
@@ -65,8 +64,8 @@ public class ConfigurationXmlParser {
     /**
      * Unmarshals an XML configuration file into a {@link Heartbeat} object.
      *
-     * @param file the XML configuration file to parse
-     * @return the parsed heartbeat configuration
+     * @param  file        the XML configuration file to parse
+     * @return             the parsed heartbeat configuration
      * @throws IOException if the file cannot be read or the XML is invalid
      */
     final @NotNull Heartbeat unmarshalExtensionConfig(final @NotNull File file) throws IOException {
