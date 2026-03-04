@@ -32,15 +32,15 @@ import java.net.HttpURLConnection;
  * <p>
  * This handler checks the HiveMQ lifecycle stage and returns:
  * <ul>
- *     <li>HTTP 200 (OK) if HiveMQ has started successfully</li>
- *     <li>HTTP 503 (SERVICE_UNAVAILABLE) if HiveMQ is not yet fully started</li>
- *     <li>HTTP 405 (METHOD_NOT_ALLOWED) for non-GET requests</li>
+ * <li>HTTP 200 (OK) if HiveMQ has started successfully</li>
+ * <li>HTTP 503 (SERVICE_UNAVAILABLE) if HiveMQ is not yet fully started</li>
+ * <li>HTTP 405 (METHOD_NOT_ALLOWED) for non-GET requests</li>
  * </ul>
  * <p>
  * Each valid heartbeat request is tracked via a metric counter ({@value HTTP_HEARTBEAT_METER}).
  *
  * @author David Sondermann
- * @since 1.0.11
+ * @since  1.0.11
  */
 public class HiveMQHeartbeatHandler implements HttpHandler {
 
@@ -51,11 +51,10 @@ public class HiveMQHeartbeatHandler implements HttpHandler {
     /**
      * Handles incoming HTTP requests for the heartbeat endpoint.
      * <p>
-     * This method validates that the request uses the GET method, checks the HiveMQ lifecycle stage,
-     * and responds with the appropriate HTTP status code. All requests are logged at debug level
-     * and tracked via metrics.
+     * This method validates that the request uses the GET method, checks the HiveMQ lifecycle stage, and responds with
+     * the appropriate HTTP status code. All requests are logged at debug level and tracked via metrics.
      *
-     * @param exchange the HTTP exchange containing request and response information
+     * @param  exchange    the HTTP exchange containing request and response information
      * @throws IOException if an I/O error occurs during request handling
      */
     @Override
@@ -77,7 +76,8 @@ public class HiveMQHeartbeatHandler implements HttpHandler {
             if (LOG.isDebugEnabled()) {
                 final var remoteAddress = exchange.getRemoteAddress();
                 final var localAddress = exchange.getLocalAddress();
-                LOG.debug("Heartbeat request from IP {} (port {}) received on listener {}:{} and URI {}, with status {}",
+                LOG.debug(
+                        "Heartbeat request from IP {} (port {}) received on listener {}:{} and URI {}, with status {}",
                         remoteAddress.getAddress().getHostAddress(),
                         remoteAddress.getPort(),
                         localAddress.getAddress().getHostAddress(),

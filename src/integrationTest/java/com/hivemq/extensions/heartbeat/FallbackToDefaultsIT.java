@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author David Sondermann
- * @since 1.0.4
+ * @since  1.0.4
  */
 @Testcontainers
 class FallbackToDefaultsIT {
@@ -43,7 +43,7 @@ class FallbackToDefaultsIT {
     @Container
     final @NotNull HiveMQContainer hivemq =
             new HiveMQContainer(OciImages.getImageName("hivemq/extensions/hivemq-heartbeat-extension")
-                    .asCompatibleSubstituteFor("hivemq/hivemq-ce")) //
+                    .asCompatibleSubstituteFor("hivemq/hivemq-ce"))
                     .withExposedPorts(9090)
                     .withCopyToContainer(MountableFile.forClasspathResource("broken-config.xml"),
                             "/opt/hivemq/extensions/hivemq-heartbeat-extension/conf/config.xml")
@@ -54,7 +54,7 @@ class FallbackToDefaultsIT {
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
     void brokenConfigFilePresent_defaultsUsed() throws Exception {
         try (final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()) {
-            //noinspection HttpUrlsUsage
+            // noinspection HttpUrlsUsage
             final var uri = "http://%s:%d/heartbeat".formatted(hivemq.getHost(), hivemq.getMappedPort(9090));
             final var request = HttpRequest.newBuilder().uri(URI.create(uri)).GET().build();
 

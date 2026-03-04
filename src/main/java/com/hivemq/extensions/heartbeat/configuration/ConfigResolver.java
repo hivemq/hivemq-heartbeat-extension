@@ -25,11 +25,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 /**
- * Resolves the configuration file location, supporting both the new {@code conf/} folder location
- * and the legacy root folder location for backward compatibility.
+ * Resolves the configuration file location, supporting both the new {@code conf/} folder location and the legacy root
+ * folder location for backward compatibility.
  * <p>
- * If the configuration file exists at the legacy location (extension root folder), it will be used
- * with a deprecation warning. Otherwise, the new {@code conf/} folder location is used.
+ * If the configuration file exists at the legacy location (extension root folder), it will be used with a deprecation
+ * warning. Otherwise, the new {@code conf/} folder location is used.
  */
 public class ConfigResolver implements Supplier<Path> {
 
@@ -63,8 +63,8 @@ public class ConfigResolver implements Supplier<Path> {
     /**
      * Returns the path to the configuration file.
      * <p>
-     * If the configuration file exists at the legacy location, it will be used with a deprecation warning.
-     * Otherwise, the new {@code conf/} folder location is returned.
+     * If the configuration file exists at the legacy location, it will be used with a deprecation warning. Otherwise,
+     * the new {@code conf/} folder location is returned.
      *
      * @return the path to the configuration file
      */
@@ -77,7 +77,8 @@ public class ConfigResolver implements Supplier<Path> {
         // the only way it could be there is when deliberately placed
         if (legacyPath.toFile().exists()) {
             if (!legacyWarningAlreadyLogged.getAndSet(true)) {
-                LOG.warn("{}: The configuration file '{}' is placed at the legacy location. " +
+                LOG.warn(
+                        "{}: The configuration file '{}' is placed at the legacy location. " +
                                 "Please move and rename the configuration file to '{}'. " +
                                 "Support for the legacy location will be removed in a future release.",
                         extensionName,

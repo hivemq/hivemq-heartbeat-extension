@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author David Sondermann
- * @since 1.0.4
+ * @since  1.0.4
  */
 @Testcontainers
 class CustomConfigIT {
@@ -43,7 +43,7 @@ class CustomConfigIT {
     @Container
     final @NotNull HiveMQContainer hivemq =
             new HiveMQContainer(OciImages.getImageName("hivemq/extensions/hivemq-heartbeat-extension")
-                    .asCompatibleSubstituteFor("hivemq/hivemq-ce")) //
+                    .asCompatibleSubstituteFor("hivemq/hivemq-ce"))
                     .withExposedPorts(9191)
                     .withCopyToContainer(MountableFile.forClasspathResource("config.xml"),
                             "/opt/hivemq/extensions/hivemq-heartbeat-extension/conf/config.xml")
@@ -54,7 +54,7 @@ class CustomConfigIT {
     @Timeout(value = 2, unit = TimeUnit.MINUTES)
     void customConfigInConfFolder_customConfigUsed() throws Exception {
         try (final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()) {
-            //noinspection HttpUrlsUsage
+            // noinspection HttpUrlsUsage
             final var uri = "http://%s:%d/custom-endpoint".formatted(hivemq.getHost(), hivemq.getMappedPort(9191));
             final var request = HttpRequest.newBuilder().uri(URI.create(uri)).GET().build();
 
@@ -69,7 +69,7 @@ class CustomConfigIT {
     void configAtLegacyLocation_customConfigUsed() throws Exception {
         final var legacyHivemq =
                 new HiveMQContainer(OciImages.getImageName("hivemq/extensions/hivemq-heartbeat-extension")
-                        .asCompatibleSubstituteFor("hivemq/hivemq-ce")) //
+                        .asCompatibleSubstituteFor("hivemq/hivemq-ce"))
                         .withExposedPorts(9191)
                         .withCopyToContainer(MountableFile.forClasspathResource("config.xml"),
                                 "/opt/hivemq/extensions/hivemq-heartbeat-extension/extension-config.xml")
@@ -78,9 +78,9 @@ class CustomConfigIT {
         try (legacyHivemq) {
             legacyHivemq.start();
             try (final var client = HttpClient.newBuilder().followRedirects(HttpClient.Redirect.NORMAL).build()) {
-                //noinspection HttpUrlsUsage
-                final var uri =
-                        "http://%s:%d/custom-endpoint".formatted(legacyHivemq.getHost(), legacyHivemq.getMappedPort(9191));
+                // noinspection HttpUrlsUsage
+                final var uri = "http://%s:%d/custom-endpoint".formatted(legacyHivemq.getHost(),
+                        legacyHivemq.getMappedPort(9191));
                 final var request = HttpRequest.newBuilder().uri(URI.create(uri)).GET().build();
 
                 final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
